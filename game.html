@@ -21,6 +21,7 @@
         position: relative;
         overflow: hidden;
         font-family: Arial, sans-serif;
+        cursor: pointer; /* shows player they can click */
     }
 
     /* Dialogue Box (bottom center) */
@@ -31,6 +32,7 @@
         transform: translateX(-50%);
         width: 70%;
         max-width: 900px;
+        cursor: pointer;
     }
 
     .dialogue-box img {
@@ -38,7 +40,7 @@
         display: block;
     }
 
-    /* Dialogue text (optional placeholder) */
+    /* Dialogue text */
     .dialogue-text {
         position: absolute;
         bottom: 8%;
@@ -50,7 +52,8 @@
         font-size: 1.25rem;
         color: black;
         font-weight: bold;
-        pointer-events: none; /* keeps image clickable if needed */
+        pointer-events: none;
+        user-select: none;
     }
 
     /* Dialogue Options — middle right */
@@ -73,7 +76,6 @@
     .option-btn:hover {
         transform: scale(1.05);
     }
-
 </style>
 </head>
 
@@ -91,10 +93,43 @@
         <img src="DBox.png" alt="Dialogue Box">
     </div>
 
-    <!-- Optional text area inside the dialogue box -->
-    <div class="dialogue-text">
-        Character: This is where the character dialogue will appear.
+    <!-- Dialogue text -->
+    <div class="dialogue-text" id="dialogueText">
+        <!-- JS will insert text here -->
     </div>
+
+<script>
+/* Dialogue lines */
+const dialogue = [
+    "You: *yawn* man, what a dream... well good things don't last forever.",
+    "You: Guess it's time to get up.",
+    "You: Let's get dressed and start the day.",
+    "??? : Oh, you're finally awake."
+];
+
+let index = 0;
+
+/* Insert the initial line */
+const dialogueText = document.getElementById("dialogueText");
+dialogueText.textContent = dialogue[index];
+
+/* Advance dialogue when clicking body OR dialogue box */
+document.body.addEventListener("click", advanceDialogue);
+document.querySelector(".dialogue-box").addEventListener("click", advanceDialogue);
+
+function advanceDialogue(event) {
+    // prevent double-trigger if clicking inside the box
+    if (event.target.classList.contains("option-btn")) return;
+
+    index++;
+    if (index < dialogue.length) {
+        dialogueText.textContent = dialogue[index];
+    } else {
+        // If out of dialogue lines, stay on last (or load another scene)
+        index = dialogue.length - 1;
+    }
+}
+</script>
 
 </body>
 </html>
