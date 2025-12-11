@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Start Screen</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+
+    /* Set your image as fullscreen background */
+    background-image: url("LoveBk.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Arial", sans-serif;
+  }
+
+  .container {
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+
+  h1 {
+    font-size: 3.2rem;
+    margin-bottom: 25px;
+  }
+
+  a.start-btn {
+    display: inline-block;
+    padding: 15px 45px;
+    font-size: 1.3rem;
+    text-decoration: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #c4004f;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.3s;
+  }
+
+  a.start-btn:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 15px rgba(255,255,255,0.8);
+  }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <h1>LoveBound</h1>
+  <a class="start-btn" href="game.html">Start Game</a>
+</div>
+
+</body>
+</html>
