@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Game Screen</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+
+        /* Game background */
+        background-image: url("Artboard 1.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        position: relative;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Dialogue Box (bottom center) */
+    .dialogue-box {
+        position: absolute;
+        bottom: 3%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        max-width: 900px;
+    }
+
+    .dialogue-box img {
+        width: 100%;
+        display: block;
+    }
+
+    /* Dialogue text (optional placeholder) */
+    .dialogue-text {
+        position: absolute;
+        bottom: 8%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        max-width: 750px;
+        text-align: left;
+        font-size: 1.25rem;
+        color: black;
+        font-weight: bold;
+        pointer-events: none; /* keeps image clickable if needed */
+    }
+
+    /* Dialogue Options — middle right */
+    .options {
+        position: absolute;
+        top: 50%;
+        right: 4%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .option-btn {
+        width: 260px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .option-btn:hover {
+        transform: scale(1.05);
+    }
+
+</style>
+</head>
+
+<body>
+
+    <!-- Dialogue Options (middle-right) -->
+    <div class="options">
+        <img src="BoxOpt.png" class="option-btn" alt="Option 1">
+        <img src="BoxOpt.png" class="option-btn" alt="Option 2">
+        <img src="BoxOpt.png" class="option-btn" alt="Option 3">
+    </div>
+
+    <!-- Dialogue display box (bottom center) -->
+    <div class="dialogue-box">
+        <img src="dioBox.png" alt="Dialogue Box">
+    </div>
+
+    <!-- Optional text area inside the dialogue box -->
+    <div class="dialogue-text">
+        Character: This is where the character dialogue will appear.
+    </div>
+
+</body>
+</html>
