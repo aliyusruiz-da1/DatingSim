@@ -11,7 +11,6 @@
     padding: 0;
     height: 100vh;
 
-    /* Set your image as fullscreen background */
     background-image: url("LoveBk.png");
     background-size: cover;
     background-position: center;
@@ -20,44 +19,93 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     font-family: "Arial", sans-serif;
   }
 
+  /* Neon glowing title */
+  h1 {
+    font-size: 4rem;
+    color: #ff4da6;
+    text-align: center;
+    font-weight: bold;
+    text-shadow:
+      0 0 8px #ff4da6,
+      0 0 20px #ff1f8a,
+      0 0 40px #ff0f7b,
+      0 0 80px #ff0073;
+    margin-bottom: 20px;
+    z-index: 10;
+  }
+
+  /* Clickable heart button */
+  a.heart-btn {
+    text-decoration: none;
+    display: block;
+    width: 120px;
+    height: 120px;
+    background: #ff1f8a;
+    clip-path: path("M 60 10 C 60 -10 0 -10 0 35 C 0 70 60 110 60 110 C 60 110 120 70 120 35 C 120 -10 60 -10 60 10 Z");
+    margin: 0 auto;
+    transition: transform 0.2s ease, box-shadow 0.4s ease;
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(255, 0, 100, 0.8);
+  }
+
+  a.heart-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px rgba(255, 0, 150, 1);
+  }
+
+  /* Floating pulsing hearts */
+  .pulse-heart {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #ff4da6;
+    opacity: 0.7;
+    clip-path: path("M 15 5 C 15 -5 0 -5 0 15 C 0 30 15 40 15 40 C 15 40 30 30 30 15 C 30 -5 15 -5 15 5 Z");
+    animation: pulse 2s infinite ease-in-out, floatUp 8s linear infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0); opacity: 0.9; }
+    100% { transform: translateY(-120vh); opacity: 0; }
+  }
+
+  /* Randomized heart positions */
+  .h1 { left: 10%; animation-delay: 0s, 0s; }
+  .h2 { left: 25%; animation-delay: 0.5s, 1s; }
+  .h3 { left: 40%; animation-delay: 1.2s, 2s; }
+  .h4 { left: 60%; animation-delay: 0.3s, 1.4s; }
+  .h5 { left: 75%; animation-delay: 1s, 2.4s; }
+  .h6 { left: 90%; animation-delay: 0.8s, 3s; }
+
   .container {
     text-align: center;
-    color: white;
-    text-shadow: 0 0 10px rgba(0,0,0,0.4);
-  }
-
-  h1 {
-    font-size: 3.2rem;
-    margin-bottom: 25px;
-  }
-
-  a.start-btn {
-    display: inline-block;
-    padding: 15px 45px;
-    font-size: 1.3rem;
-    text-decoration: none;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #c4004f;
-    font-weight: bold;
-    transition: transform 0.2s, box-shadow 0.3s;
-  }
-
-  a.start-btn:hover {
-    transform: scale(1.07);
-    box-shadow: 0 0 15px rgba(255,255,255,0.8);
+    z-index: 5;
   }
 </style>
 
 </head>
 <body>
 
+<!-- Floating pulsing hearts -->
+<div class="pulse-heart h1"></div>
+<div class="pulse-heart h2"></div>
+<div class="pulse-heart h3"></div>
+<div class="pulse-heart h4"></div>
+<div class="pulse-heart h5"></div>
+<div class="pulse-heart h6"></div>
+
 <div class="container">
   <h1>LoveBound</h1>
-  <a class="start-btn" href="game.html">Start Game</a>
+  <a class="heart-btn" href="game.html"></a>
 </div>
 
 </body>
