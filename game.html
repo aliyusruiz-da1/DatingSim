@@ -1,134 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dating Sim — Game Screen</title>
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        width: 100vw;
-
-        background-image: url("Artboard 1.png");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-
-        position: relative;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-        cursor: pointer;
-    }
-
-    /* Dialogue Box */
-    .dialogue-box {
-        position: absolute;
-        bottom: 3%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 70%;
-        max-width: 900px;
-        cursor: pointer;
-    }
-
-    .dialogue-box img {
-        width: 100%;
-        display: block;
-    }
-
-    /* Dialogue text – larger & slightly raised */
-    .dialogue-text {
-        position: absolute;
-        bottom: 13%;  /* raised from 8% */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        max-width: 750px;
-        text-align: left;
-        font-size: 1.65rem;  /* larger */
-        color: black;
-        font-weight: bold;
-        pointer-events: none;
-        user-select: none;
-        line-height: 1.35;
-    }
-
-    /* Dialogue Options — hidden until last line */
-    .options {
-        position: absolute;
-        top: 50%;
-        right: 4%;
-        transform: translateY(-50%);
-        display: none; /* hidden initially */
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .option-btn {
-        width: 260px;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        position: relative;
-    }
-
-    .option-btn:hover {
-        transform: scale(1.05);
-    }
-
-    /* White text labels on buttons */
-    .option-label {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 1.4rem;
-        font-weight: bold;
-        pointer-events: none;
-        text-shadow: 1px 1px 2px black;
-    }
-
-</style>
-</head>
-
-<body>
-
-    <!-- Dialogue Options -->
-    <div class="options" id="optionsMenu">
-        <div class="option-btn">
-            <img src="ButtonD.png" alt="Casual">
-            <div class="option-label">Casual</div>
-        </div>
-
-        <div class="option-btn">
-            <img src="ButtonD.png" alt="Y2K">
-            <div class="option-label">Y2K</div>
-        </div>
-
-        <div class="option-btn">
-            <img src="ButtonD.png" alt="Markiplier Merch">
-            <div class="option-label">Markiplier Merch</div>
-        </div>
-    </div>
-
-    <!-- Dialogue Box -->
-    <div class="dialogue-box">
-        <img src="DBox.png" alt="Dialogue Box">
-    </div>
-
-    <!-- Dialogue Text -->
-    <div class="dialogue-text" id="dialogueText"></div>
-
 <script>
 /* Dialogue lines */
 const dialogue = [
     "You: *yawn* man, what a dream... well great things don't last forever.",
     "You: Guess it's time to get up.",
     "You: Let's get dressed and start the day.",
-    "You: What to wear what to wear..."
+    "??? : Oh, you're finally awake."
 ];
 
 let index = 0;
@@ -145,22 +21,28 @@ document.querySelector(".dialogue-box").addEventListener("click", advanceDialogu
 
 function advanceDialogue(event) {
     // Ignore option button clicks
-    if (event.target.classList.contains("option-btn") || 
-        event.target.parentElement.classList.contains("option-btn")) return;
+    if (event.target.closest(".option-btn")) return;
 
     index++;
     
     if (index < dialogue.length) {
         dialogueText.textContent = dialogue[index];
     } else {
-        // Stay on last line
         index = dialogue.length - 1;
-
-        // Reveal the dialogue options
         optionsMenu.style.display = "flex";
     }
 }
-</script>
 
-</body>
-</html>
+/* BUTTON CLICK NAVIGATION */
+document.querySelectorAll(".option-btn")[0].addEventListener("click", () => {
+    window.location.href = "CasualTL.html";
+});
+
+document.querySelectorAll(".option-btn")[1].addEventListener("click", () => {
+    window.location.href = "Y2KTL.html";
+});
+
+document.querySelectorAll(".option-btn")[2].addEventListener("click", () => {
+    window.location.href = "Mark.html";
+});
+</script>
