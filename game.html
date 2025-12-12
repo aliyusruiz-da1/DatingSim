@@ -12,7 +12,6 @@
         height: 100vh;
         width: 100vw;
 
-        /* Game background */
         background-image: url("Artboard 1.png");
         background-size: cover;
         background-position: center;
@@ -21,10 +20,10 @@
         position: relative;
         overflow: hidden;
         font-family: Arial, sans-serif;
-        cursor: pointer; /* shows player they can click */
+        cursor: pointer;
     }
 
-    /* Dialogue Box (bottom center) */
+    /* Dialogue Box */
     .dialogue-box {
         position: absolute;
         bottom: 3%;
@@ -40,29 +39,30 @@
         display: block;
     }
 
-    /* Dialogue text */
+    /* Dialogue text – larger & slightly raised */
     .dialogue-text {
         position: absolute;
-        bottom: 8%;
+        bottom: 13%;  /* raised from 8% */
         left: 50%;
         transform: translateX(-50%);
         width: 60%;
         max-width: 750px;
         text-align: left;
-        font-size: 1.25rem;
+        font-size: 1.65rem;  /* larger */
         color: black;
         font-weight: bold;
         pointer-events: none;
         user-select: none;
+        line-height: 1.35;
     }
 
-    /* Dialogue Options — middle right */
+    /* Dialogue Options — hidden until last line */
     .options {
         position: absolute;
         top: 50%;
         right: 4%;
         transform: translateY(-50%);
-        display: flex;
+        display: none; /* hidden initially */
         flex-direction: column;
         gap: 20px;
     }
@@ -71,62 +71,93 @@
         width: 260px;
         cursor: pointer;
         transition: transform 0.2s ease;
+        position: relative;
     }
 
     .option-btn:hover {
         transform: scale(1.05);
     }
+
+    /* White text labels on buttons */
+    .option-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 1.4rem;
+        font-weight: bold;
+        pointer-events: none;
+        text-shadow: 1px 1px 2px black;
+    }
+
 </style>
 </head>
 
 <body>
 
-    <!-- Dialogue Options (middle-right) -->
-    <div class="options">
-        <img src="ButtonD.png" class="option-btn" alt="Option 1">
-        <img src="ButtonD.png" class="option-btn" alt="Option 2">
-        <img src="ButtonD.png" class="option-btn" alt="Option 3">
+    <!-- Dialogue Options -->
+    <div class="options" id="optionsMenu">
+        <div class="option-btn">
+            <img src="ButtonD.png" alt="Casual">
+            <div class="option-label">Casual</div>
+        </div>
+
+        <div class="option-btn">
+            <img src="ButtonD.png" alt="Y2K">
+            <div class="option-label">Y2K</div>
+        </div>
+
+        <div class="option-btn">
+            <img src="ButtonD.png" alt="Markiplier Merch">
+            <div class="option-label">Markiplier Merch</div>
+        </div>
     </div>
 
-    <!-- Dialogue display box (bottom center) -->
+    <!-- Dialogue Box -->
     <div class="dialogue-box">
         <img src="DBox.png" alt="Dialogue Box">
     </div>
 
-    <!-- Dialogue text -->
-    <div class="dialogue-text" id="dialogueText">
-        <!-- JS will insert text here -->
-    </div>
+    <!-- Dialogue Text -->
+    <div class="dialogue-text" id="dialogueText"></div>
 
 <script>
 /* Dialogue lines */
 const dialogue = [
-    "You: *yawn* man, what a dream... well good things don't last forever.",
+    "You: *yawn* man, what a dream... well great things don't last forever.",
     "You: Guess it's time to get up.",
     "You: Let's get dressed and start the day.",
-    "??? : Oh, you're finally awake."
+    "You: What to wear what to wear..."
 ];
 
 let index = 0;
 
-/* Insert the initial line */
 const dialogueText = document.getElementById("dialogueText");
+const optionsMenu = document.getElementById("optionsMenu");
+
+/* Initialize text */
 dialogueText.textContent = dialogue[index];
 
-/* Advance dialogue when clicking body OR dialogue box */
+/* Click to progress */
 document.body.addEventListener("click", advanceDialogue);
 document.querySelector(".dialogue-box").addEventListener("click", advanceDialogue);
 
 function advanceDialogue(event) {
-    // prevent double-trigger if clicking inside the box
-    if (event.target.classList.contains("option-btn")) return;
+    // Ignore option button clicks
+    if (event.target.classList.contains("option-btn") || 
+        event.target.parentElement.classList.contains("option-btn")) return;
 
     index++;
+    
     if (index < dialogue.length) {
         dialogueText.textContent = dialogue[index];
     } else {
-        // If out of dialogue lines, stay on last (or load another scene)
+        // Stay on last line
         index = dialogue.length - 1;
+
+        // Reveal the dialogue options
+        optionsMenu.style.display = "flex";
     }
 }
 </script>
