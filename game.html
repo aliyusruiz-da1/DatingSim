@@ -23,7 +23,6 @@
         cursor: pointer;
     }
 
-    /* Dialogue Box */
     .dialogue-box {
         position: absolute;
         bottom: 3%;
@@ -39,16 +38,15 @@
         display: block;
     }
 
-    /* Dialogue text – larger & slightly raised */
     .dialogue-text {
         position: absolute;
-        bottom: 13%;  /* raised from 8% */
+        bottom: 13%;
         left: 50%;
         transform: translateX(-50%);
         width: 60%;
         max-width: 750px;
         text-align: left;
-        font-size: 1.65rem;  /* larger */
+        font-size: 1.65rem;
         color: black;
         font-weight: bold;
         pointer-events: none;
@@ -62,23 +60,24 @@
         top: 50%;
         right: 4%;
         transform: translateY(-50%);
-        display: none; /* hidden initially */
+        display: none;
         flex-direction: column;
         gap: 20px;
     }
 
     .option-btn {
         width: 260px;
+        position: relative;
+        display: block;
         cursor: pointer;
         transition: transform 0.2s ease;
-        position: relative;
+        text-decoration: none;
     }
 
     .option-btn:hover {
         transform: scale(1.05);
     }
 
-    /* White text labels on buttons */
     .option-label {
         position: absolute;
         top: 50%;
@@ -90,14 +89,13 @@
         pointer-events: none;
         text-shadow: 1px 1px 2px black;
     }
-
 </style>
 </head>
 
 <body>
 
-    <!-- Dialogue Options -->
-    <div class="options">
+<!-- Dialogue Options -->
+<div class="options" id="optionsMenu">
     <a href="CasualTL.html" class="option-btn">
         <img src="ButtonD.png">
         <div class="option-label">Casual</div>
@@ -114,22 +112,20 @@
     </a>
 </div>
 
+<!-- Dialogue Box -->
+<div class="dialogue-box">
+    <img src="DBox.png" alt="Dialogue Box">
+</div>
 
-    <!-- Dialogue Box -->
-    <div class="dialogue-box">
-        <img src="DBox.png" alt="Dialogue Box">
-    </div>
-
-    <!-- Dialogue Text -->
-    <div class="dialogue-text" id="dialogueText"></div>
+<!-- Dialogue Text -->
+<div class="dialogue-text" id="dialogueText"></div>
 
 <script>
-/* Dialogue lines */
 const dialogue = [
     "You: *yawn* man, what a dream... well great things don't last forever.",
     "You: Guess it's time to get up.",
     "You: Let's get dressed and start the day.",
-    "You: What to wear what to wear..."
+    "You: What to wear, what to wear..."
 ];
 
 let index = 0;
@@ -137,27 +133,19 @@ let index = 0;
 const dialogueText = document.getElementById("dialogueText");
 const optionsMenu = document.getElementById("optionsMenu");
 
-/* Initialize text */
 dialogueText.textContent = dialogue[index];
 
-/* Click to progress */
 document.body.addEventListener("click", advanceDialogue);
 document.querySelector(".dialogue-box").addEventListener("click", advanceDialogue);
 
 function advanceDialogue(event) {
-    // Ignore option button clicks
-    if (event.target.classList.contains("option-btn") || 
-        event.target.parentElement.classList.contains("option-btn")) return;
+    // Do not advance when clicking option buttons
+    if (event.target.closest(".option-btn")) return;
 
-    index++;
-    
-    if (index < dialogue.length) {
+    if (index < dialogue.length - 1) {
+        index++;
         dialogueText.textContent = dialogue[index];
     } else {
-        // Stay on last line
-        index = dialogue.length - 1;
-
-        // Reveal the dialogue options
         optionsMenu.style.display = "flex";
     }
 }
