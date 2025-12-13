@@ -20,151 +20,23 @@
         cursor: pointer;
     }
 
+    /* Fade overlay */
+    .fade {
+        position: absolute;
+        inset: 0;
+        background: black;
+        opacity: 0;
+        transition: opacity 1s ease;
+        pointer-events: none;
+        z-index: 100;
+    }
+
+    .fade.active {
+        opacity: 1;
+    }
+
     /* Dialogue box */
     .dialogue-box {
         position: absolute;
         bottom: 3%;
         left: 50%;
-        transform: translateX(-50%);
-        width: 70%;
-        max-width: 900px;
-        z-index: 10;
-    }
-
-    .dialogue-box img {
-        width: 100%;
-        display: block;
-    }
-
-    /* Dialogue text */
-    .dialogue-text {
-        position: absolute;
-        bottom: 13%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        max-width: 750px;
-        font-size: 1.65rem;
-        font-weight: bold;
-        line-height: 1.35;
-        color: black;
-        pointer-events: none;
-        user-select: none;
-        animation: pop 0.4s ease;
-        z-index: 11;
-    }
-
-    @keyframes pop {
-        from { opacity: 0; transform: translateX(-50%) scale(0.95); }
-        to   { opacity: 1; transform: translateX(-50%) scale(1); }
-    }
-
-    /* OPTIONS POP-UP */
-    .options {
-        position: absolute;
-        top: 50%;
-        right: 6%;
-        transform: translateY(-50%);
-        display: none;
-        flex-direction: column;
-        gap: 20px;
-        z-index: 20;
-    }
-
-    .option-btn {
-        position: relative;
-        width: 260px;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        text-decoration: none;
-    }
-
-    .option-btn:hover {
-        transform: scale(1.05);
-    }
-
-    .option-btn img {
-        width: 100%;
-        display: block;
-    }
-
-    .option-label {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 1.4rem;
-        font-weight: bold;
-        text-shadow: 1px 1px 3px black;
-        pointer-events: none;
-    }
-</style>
-</head>
-
-<body>
-
-<!-- OPTIONS -->
-<div class="options" id="optionsMenu">
-    <a href="MarkTalk.html" class="option-btn">
-        <img src="ButtonD.png" alt="Talk">
-        <div class="option-label">talk</div>
-    </a>
-
-    <a href="MarkFail.html" class="option-btn">
-        <img src="ButtonD.png" alt="Ignore">
-        <div class="option-label">ignore</div>
-    </a>
-</div>
-
-<div class="dialogue-box">
-    <img src="DBox.png" alt="Dialogue Box">
-</div>
-
-<div class="dialogue-text" id="dialogueText"></div>
-
-<script>
-/* DIALOGUE */
-const dialogue = [
-    "You: ...DAYM this place is packed.",
-    "You: And the popcorn bucket is way more expensive than I thought.",
-    "You: At least they didn't notice the snacks in my pockets.",
-    "???: Hey, nice clothes... They're really stylish.",
-    "You: (You're fucking shitting me)",
-    "You: MARKIPLIER?!?!?!?"
-];
-
-let index = 0;
-let finished = false;
-
-const dialogueText = document.getElementById("dialogueText");
-const optionsMenu = document.getElementById("optionsMenu");
-
-/* Initialize */
-dialogueText.textContent = dialogue[index];
-
-document.body.addEventListener("click", advance);
-
-function advance(event) {
-    /* Ignore clicks on option buttons */
-    if (event.target.closest(".option-btn")) return;
-
-    if (!finished && index < dialogue.length - 1) {
-        index++;
-        updateText();
-    } else if (!finished) {
-        finished = true;
-        optionsMenu.style.display = "flex";
-    }
-}
-
-function updateText() {
-    dialogueText.textContent = dialogue[index];
-    dialogueText.style.animation = "none";
-    dialogueText.offsetHeight;
-    dialogueText.style.animation = "pop 0.4s ease";
-}
-</script>
-
-</body>
-</html>
