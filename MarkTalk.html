@@ -27,9 +27,7 @@ body {
     max-width: 900px;
     z-index: 10;
 }
-.dialogue-box img {
-    width: 100%;
-}
+.dialogue-box img { width: 100%; }
 
 /* Dialogue text */
 .dialogue-text {
@@ -59,6 +57,8 @@ body {
     transition: left 1s ease;
     z-index: 5;
 }
+.slide-in.active { left: 0; }
+
 /* OPTIONS MENU */
 .options {
     position: absolute;
@@ -70,19 +70,14 @@ body {
     gap: 20px;
     z-index: 50;
 }
-
 .option-btn {
     position: relative;
     width: 260px;
     cursor: pointer;
     transition: transform .2s ease;
 }
-.option-btn:hover {
-    transform: scale(1.05);
-}
-.option-btn img {
-    width: 100%;
-}
+.option-btn:hover { transform: scale(1.05); }
+.option-btn img { width: 100%; }
 .option-label {
     position: absolute;
     inset: 0;
@@ -112,25 +107,24 @@ body {
     </div>
     <div class="option-btn">
         <img src="ButtonD.png">
-        <div class="option-label">no</div>
+        <div class="option-label">No</div>
     </div>
 </div>
 
 <div class="dialogue-box">
-    <img src="DBox.png" alt="Dialogue Box">
+    <img src="DBox.png">
 </div>
 
 <div class="dialogue-text" id="dialogueText"></div>
 
 <script>
 const dialogue = [
-    "You: Uh— hey, Mark, Im anon nice to meet you",
-    "Mark: Oh! Hey, a fan Im assuming? would you like a picture?",
-    "You: me? -oh no no no, I just wanted to finally meet you",
-    "Mark: Im pleased to meet you anon, you like movies like this?",
-    "Mark: cause, movies are kind of my thing, im making one actually.",
-    "Mark: Iron Lung, have you heard of it?",
-    
+    "You: Uh— hey, Mark, I'm anon, nice to meet you.",
+    "Mark: Oh! Hey, a fan I'm assuming? Would you like a picture?",
+    "You: Me? Oh— no, no, I just wanted to finally meet you.",
+    "Mark: I'm pleased to meet you, anon. You like movies like this?",
+    "Mark: Cause movies are kind of my thing—I'm making one actually.",
+    "Mark: Iron Lung. Have you heard of it?"
 ];
 
 let index = 0;
