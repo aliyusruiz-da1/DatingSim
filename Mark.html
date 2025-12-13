@@ -20,21 +20,6 @@
         cursor: pointer;
     }
 
-    /* Fade overlay */
-    .fade {
-        position: absolute;
-        inset: 0;
-        background: black;
-        opacity: 0;
-        transition: opacity 1s ease;
-        pointer-events: none;
-        z-index: 100;
-    }
-
-    .fade.active {
-        opacity: 1;
-    }
-
     /* Dialogue box */
     .dialogue-box {
         position: absolute;
@@ -76,9 +61,7 @@
 
 <body>
 
-<div class="fade" id="fade"></div>
-
-<div class="dialogue-box">
+<div class="dialogue-box" id="dialogueBox">
     <img src="DBox.png" alt="Dialogue Box">
 </div>
 
@@ -89,6 +72,35 @@
 const dialogue = [
     "You: Oh yeah, looking suave *phone ping*.",
     "You: Huh, the new FNAF movie is out.",
-    "You: might aswell check it out, I already got the fit on"
-    "You: But before I head out..."
-    "You: I should take a hit from my Freddy Faz-Bong"
+    "You: Might as well check it out, I already got the fit on.",
+    "You: But before I head out...",
+    "You: I should take a hit from my Freddy Faz-Bong."
+];
+
+let index = 0;
+
+const dialogueText = document.getElementById("dialogueText");
+const dialogueBox = document.getElementById("dialogueBox");
+
+/* Show first line */
+dialogueText.textContent = dialogue[index];
+
+/* Click anywhere (background or box) to progress */
+document.body.addEventListener("click", advanceDialogue);
+dialogueBox.addEventListener("click", advanceDialogue);
+
+function advanceDialogue() {
+    if (index < dialogue.length - 1) {
+        index++;
+        dialogueText.textContent = dialogue[index];
+
+        /* retrigger pop animation */
+        dialogueText.style.animation = "none";
+        dialogueText.offsetHeight;
+        dialogueText.style.animation = "pop 0.4s ease";
+    }
+}
+</script>
+
+</body>
+</html>
