@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dating Sim — Game Screen</title>
+<title>Dating Sim — Scene</title>
 
 <style>
     body {
         margin: 0;
-        padding: 0;
         height: 100vh;
         width: 100vw;
         background-image: url("Artboard 1.png");
@@ -22,31 +21,28 @@
     }
 
     /* Fade overlay */
-    .fade-overlay {
+    .fade {
         position: absolute;
         inset: 0;
         background: black;
         opacity: 0;
-        pointer-events: none;
         transition: opacity 1s ease;
-        z-index: 50;
+        pointer-events: none;
+        z-index: 100;
     }
 
-    .fade-overlay.active {
+    .fade.active {
         opacity: 1;
-        pointer-events: auto;
     }
 
-    /* Dialogue Box */
+    /* Dialogue box */
     .dialogue-box {
         position: absolute;
         bottom: 3%;
         left: 50%;
-        transform: translateX(-50%) scale(0.95);
+        transform: translateX(-50%);
         width: 70%;
         max-width: 900px;
-        opacity: 0;
-        animation: popIn 0.6s ease forwards;
     }
 
     .dialogue-box img {
@@ -62,143 +58,35 @@
         transform: translateX(-50%);
         width: 60%;
         max-width: 750px;
-        text-align: left;
         font-size: 1.65rem;
-        color: black;
         font-weight: bold;
         line-height: 1.35;
+        color: black;
         pointer-events: none;
-        opacity: 0;
-        animation: popIn 0.6s ease forwards;
+        user-select: none;
+        animation: pop 0.4s ease;
     }
 
-    @keyframes popIn {
-        from {
-            opacity: 0;
-            transform: translateX(-50%) scale(0.9);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-        }
-    }
-
-    /* Dialogue Options */
-    .options {
-        position: absolute;
-        top: 50%;
-        right: 4%;
-        transform: translateY(-50%);
-        display: none;
-        flex-direction: column;
-        gap: 20px;
-        z-index: 10;
-    }
-
-    .option-btn {
-        width: 260px;
-        position: relative;
-        display: block;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        text-decoration: none;
-    }
-
-    .option-btn:hover {
-        transform: scale(1.05);
-    }
-
-    .option-label {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 1.4rem;
-        font-weight: bold;
-        pointer-events: none;
-        text-shadow: 1px 1px 2px black;
+    @keyframes pop {
+        from { opacity: 0; transform: translateX(-50%) scale(0.95); }
+        to   { opacity: 1; transform: translateX(-50%) scale(1); }
     }
 </style>
 </head>
 
 <body>
 
-<div class="fade-overlay" id="fade"></div>
+<div class="fade" id="fade"></div>
 
-<!-- Dialogue Options -->
-<div class="options" id="optionsMenu">
-    <a href="CasualTL.html" class="option-btn">
-        <img src="ButtonD.png">
-        <div class="option-label">Casual</div>
-    </a>
-
-    <a href="Y2KTL.html" class="option-btn">
-        <img src="ButtonD.png">
-        <div class="option-label">Y2K</div>
-    </a>
-
-    <a href="Mark.html" class="option-btn">
-        <img src="ButtonD.png">
-        <div class="option-label">Markiplier Merch</div>
-    </a>
-</div>
-
-<!-- Dialogue Box -->
 <div class="dialogue-box">
-    <img src="DBox.png">
+    <img src="DBox.png" alt="Dialogue Box">
 </div>
 
-<!-- Dialogue Text -->
 <div class="dialogue-text" id="dialogueText"></div>
 
 <script>
+/* SAVED DIALOGUE */
 const dialogue = [
-    "You: *yawn* man, what a dream... well great things don't last forever.",
+    "You: *yawn* man, what a dream...",
     "You: Guess it's time to get up.",
-    "You: Let's get dressed and start the day.",
-    "You: What to wear, what to wear..."
-];
-
-let index = 0;
-let sceneTransitioned = false;
-
-const dialogueText = document.getElementById("dialogueText");
-const optionsMenu = document.getElementById("optionsMenu");
-const fade = document.getElementById("fade");
-
-dialogueText.textContent = dialogue[index];
-
-document.body.addEventListener("click", advanceDialogue);
-document.querySelector(".dialogue-box").addEventListener("click", advanceDialogue);
-
-function advanceDialogue(event) {
-    if (event.target.closest(".option-btn")) return;
-
-    if (index < dialogue.length - 1) {
-        index++;
-        dialogueText.textContent = dialogue[index];
-
-        // retrigger pop animation
-        dialogueText.style.animation = "none";
-        dialogueText.offsetHeight;
-        dialogueText.style.animation = "popIn 0.4s ease forwards";
-    } else if (!sceneTransitioned) {
-        sceneTransitioned = true;
-
-        // Fade to black
-        fade.classList.add("active");
-
-        setTimeout(() => {
-            /* CHANGE THIS TO YOUR NEXT BACKGROUND */
-            document.body.style.backgroundImage = 'url("Artboard 2.png")';
-
-            fade.classList.remove("active");
-            optionsMenu.style.display = "flex";
-        }, 1000);
-    }
-}
-</script>
-
-</body>
-</html>
+    "You: T
