@@ -11,98 +11,27 @@
         padding: 0;
         height: 100vh;
         width: 100vw;
-
         background-image: url("Artboard 1.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-
         position: relative;
         overflow: hidden;
         font-family: Arial, sans-serif;
         cursor: pointer;
     }
 
-    .dialogue-box {
+    /* Fade overlay */
+    .fade-overlay {
         position: absolute;
-        bottom: 3%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 70%;
-        max-width: 900px;
-        cursor: pointer;
-    }
-
-    .dialogue-box img {
-        width: 100%;
-        display: block;
-    }
-
-    .dialogue-text {
-        position: absolute;
-        bottom: 13%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        max-width: 750px;
-        text-align: left;
-        font-size: 1.65rem;
-        color: black;
-        font-weight: bold;
+        inset: 0;
+        background: black;
+        opacity: 0;
         pointer-events: none;
-        user-select: none;
-        line-height: 1.35;
+        transition: opacity 1s ease;
+        z-index: 50;
     }
 
-    /* Dialogue Options — hidden until last line */
-    .options {
-        position: absolute;
-        top: 50%;
-        right: 4%;
-        transform: translateY(-50%);
-        display: none;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .option-btn {
-        width: 260px;
-        position: relative;
-        display: block;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        text-decoration: none;
-    }
-
-    .option-btn:hover {
-        transform: scale(1.05);
-    }
-
-    .option-label {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 1.4rem;
-        font-weight: bold;
-        pointer-events: none;
-        text-shadow: 1px 1px 2px black;
-    }
-</style>
-</head>
-<!-- Dialogue Box -->
-<div class="dialogue-box">
-    <img src="DBox.png" alt="Dialogue Box">
-</div>
-
-<!-- Dialogue Text -->
-<div class="dialogue-text" id="dialogueText"></div>
-
-<script>
-const dialogue = [
-    "You: Oh yeah, looking suave *phone pings* ",
-    "You: Hey the new FNAF movie is out.",
-    "You: Well I already got the outfit to match, might aswell go.",
-    "You: But first, I gotta take a rip off my Freddy Faz-Bong"
-];
+    .fade-overlay.active {
+        opacity: 1;
+        pointer-
