@@ -20,21 +20,6 @@
         cursor: pointer;
     }
 
-    /* Fade overlay */
-    .fade {
-        position: absolute;
-        inset: 0;
-        background: black;
-        opacity: 0;
-        transition: opacity 1s ease;
-        pointer-events: none;
-        z-index: 100;
-    }
-
-    .fade.active {
-        opacity: 1;
-    }
-
     /* Dialogue box */
     .dialogue-box {
         position: absolute;
@@ -74,32 +59,63 @@
         to   { opacity: 1; transform: translateX(-50%) scale(1); }
     }
 
-    /* Sliding PNG */
-    .slide-in {
+    /* OPTIONS POP-UP */
+    .options {
         position: absolute;
-        bottom: 0;
-        left: -40%;
-        width: 40%;
-        transition: left 1s ease, opacity 0.5s ease;
-        z-index: 5;
-        opacity: 1;
+        top: 50%;
+        right: 6%;
+        transform: translateY(-50%);
+        display: none;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 20;
     }
 
-    .slide-in.active {
-        left: 0;
+    .option-btn {
+        position: relative;
+        width: 260px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        text-decoration: none;
     }
 
-    .slide-in.hide {
-        opacity: 0;
+    .option-btn:hover {
+        transform: scale(1.05);
+    }
+
+    .option-btn img {
+        width: 100%;
+        display: block;
+    }
+
+    .option-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-shadow: 1px 1px 3px black;
+        pointer-events: none;
     }
 </style>
 </head>
 
 <body>
 
-<div class="fade" id="fade"></div>
+<!-- OPTIONS -->
+<div class="options" id="optionsMenu">
+    <a href="MarkTalk.html" class="option-btn">
+        <img src="ButtonD.png" alt="Talk">
+        <div class="option-label">talk</div>
+    </a>
 
-<img src="character.png" id="slideImage" class="slide-in" alt="Character">
+    <a href="MarkFail.html" class="option-btn">
+        <img src="ButtonD.png" alt="Ignore">
+        <div class="option-label">ignore</div>
+    </a>
+</div>
 
 <div class="dialogue-box">
     <img src="DBox.png" alt="Dialogue Box">
@@ -108,82 +124,37 @@
 <div class="dialogue-text" id="dialogueText"></div>
 
 <script>
-/* SCENE 1 DIALOGUE */
-const dialogue1 = [
-    "You: Oh yeah, looking suave *phone ping*.",
-    "You: Huh, the new FNAF movie is out.",
-    "You: Might as well check it out, I already got the fit on.",
-    "You: But before I head out...",
-    "You: I should take a hit from my Freddy Faz-Bong..."
+/* DIALOGUE */
+const dialogue = [
+    "You: ...DAYM this place is packed.",
+    "You: And the popcorn bucket is way more expensive than I thought.",
+    "You: At least they didn't notice the snacks in my pockets.",
+    "???: Hey, nice clothes... They're really stylish.",
+    "You: (You're fucking shitting me)",
+    "You: MARKIPLIER?!?!?!?"
 ];
 
-/* SCENE 2 DIALOGUE */
-const dialogue2 = [
-    "You: ...Woah.",
-    "You: This place is super packed.",
-    "You: a shame the popcorn bucket stupid expens-"
-    "You: (no fucking way...)"
-    "MARKIPLIER?!?!?!?!"
-    "You: I have to talk to him"
-];
-
-let dialogue = dialogue1;
 let index = 0;
-let phase = "dialogue"; 
-// dialogue → slide → fade → newDialogue
+let finished = false;
 
 const dialogueText = document.getElementById("dialogueText");
-const slideImage = document.getElementById("slideImage");
-const fade = document.getElementById("fade");
+const optionsMenu = document.getElementById("optionsMenu");
 
 /* Initialize */
 dialogueText.textContent = dialogue[index];
 
 document.body.addEventListener("click", advance);
 
-function advance() {
+function advance(event) {
+    /* Ignore clicks on option buttons */
+    if (event.target.closest(".option-btn")) return;
 
-    /* DIALOGUE PHASE */
-    if (phase === "dialogue") {
-        if (index < dialogue.length - 1) {
-            index++;
-            updateText();
-        } else {
-            phase = "slide";
-        }
-    }
-
-    /* SLIDE-IN PHASE */
-    else if (phase === "slide") {
-        slideImage.classList.add("active");
-        phase = "fade";
-    }
-
-    /* FADE TRANSITION */
-    else if (phase === "fade") {
-        fade.classList.add("active");
-
-        setTimeout(() => {
-            document.body.style.backgroundImage = 'url("Artboard 2.png")';
-
-            slideImage.classList.remove("active");
-            slideImage.classList.add("hide");
-
-            dialogue = dialogue2;
-            index = 0;
-            dialogueText.textContent = dialogue[index];
-
-            fade.classList.remove("active");
-            phase = "newDialogue";
-        }, 1000);
-    }
-
-    /* NEW DIALOGUE PHASE */
-    else if (phase === "newDialogue") {
-        if (index < dialogue.length - 1) {
-            index++;
-            updateText();
-        }
+    if (!finished && index < dialogue.length - 1) {
+        index++;
+        updateText();
+    } else if (!finished) {
+        finished = true;
+        optionsMenu.style.display = "flex";
     }
 }
 
