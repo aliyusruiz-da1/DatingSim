@@ -109,7 +109,7 @@ body {
 
 <div class="fade" id="fade"></div>
 
-<img src="character.png" id="slideImage" class="slide-in">
+<img src="FazeBong.png" id="slideImage" class="slide-in">
 
 <div class="options" id="optionsMenu">
     <a href="MarkTalk.html" class="option-btn">
@@ -131,16 +131,21 @@ body {
 <script>
 const dialogue1 = [
     "You: Oh yeah, looking suave *phone ping*.",
-    "You: Huh, the new FNAF movie is out.",
-    "You: Might as well check it out.",
-    "You: But before I head out...",
-    "You: I should take a hit from my Freddy Faz-Bong."
+    " Huh, the new FNAF movie is out.",
+    " Might as well check it out.",
+    " But before I head out...",
+    " I should take a hit from my Freddy Faz-Bong..."
 ];
 
 const dialogue2 = [
-    "You: ...Woah.",
-    "You: This place looks way different than I expected.",
-    "??? : Took you long enough."
+    "You: DAAAYYYMMMMM.",
+    " This place is packed",
+    " And the concession stand was hella expensive"
+    " Good thing I stopped by the 7-Eleven and grabbed some sna-"
+    "..."
+    " No fucking way..."
+    " MARKIPLIER!?!?!"
+    " Should I talk to him??"
 ];
 
 let dialogue = dialogue1;
@@ -174,7 +179,7 @@ function advance(e) {
     else if (phase === "fade") {
         fade.classList.add("active");
         setTimeout(() => {
-            document.body.style.backgroundImage = 'url("Artboard 2.png")';
+            document.body.style.backgroundImage = 'url("Artboard 3.png")';
             slide.classList.add("hide");
             dialogue = dialogue2;
             index = 0;
