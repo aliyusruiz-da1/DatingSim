@@ -40,3 +40,213 @@
         position: absolute;
         bottom: 3%;
         left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        max-width: 900px;
+        z-index: 10;
+    }
+
+    .dialogue-box img {
+        width: 100%;
+        display: block;
+    }
+
+    /* Dialogue text */
+    .dialogue-text {
+        position: absolute;
+        bottom: 13%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        max-width: 750px;
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.35;
+        color: black;
+        pointer-events: none;
+        user-select: none;
+        animation: pop 0.4s ease;
+        z-index: 11;
+    }
+
+    @keyframes pop {
+        from { opacity: 0; transform: translateX(-50%) scale(0.95); }
+        to   { opacity: 1; transform: translateX(-50%) scale(1); }
+    }
+
+    /* Sliding PNG */
+    .slide-in {
+        position: absolute;
+        bottom: 0;
+        left: -40%;
+        width: 40%;
+        transition: left 1s ease, opacity 0.5s ease;
+        z-index: 5;
+        opacity: 1;
+    }
+
+    .slide-in.active {
+        left: 0;
+    }
+
+    .slide-in.hide {
+        opacity: 0;
+    }
+
+    /* OPTIONS */
+    .options {
+        position: absolute;
+        top: 50%;
+        right: 6%;
+        transform: translateY(-50%);
+        display: none;
+        flex-direction: column;
+        gap: 20px;
+        z-index: 30;
+    }
+
+    .option-btn {
+        position: relative;
+        width: 260px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .option-btn:hover {
+        transform: scale(1.05);
+    }
+
+    .option-btn img {
+        width: 100%;
+        display: block;
+    }
+
+    .option-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-shadow: 1px 1px 3px black;
+        pointer-events: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="fade" id="fade"></div>
+
+<img src="character.png" id="slideImage" class="slide-in" alt="Character">
+
+<!-- OPTIONS -->
+<div class="options" id="optionsMenu">
+    <a href="MarkTalk.html" class="option-btn">
+        <img src="ButtonD.png" alt="Talk">
+        <div class="option-label">talk</div>
+    </a>
+
+    <a href="MarkFail.html" class="option-btn">
+        <img src="ButtonD.png" alt="Ignore">
+        <div class="option-label">ignore</div>
+    </a>
+</div>
+
+<div class="dialogue-box">
+    <img src="DBox.png" alt="Dialogue Box">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+/* SCENE 1 DIALOGUE */
+const dialogue1 = [
+    "You: Oh yeah, looking suave *phone ping*.",
+    "You: Huh, the new FNAF movie is out.",
+    "You: Might as well check it out, I already got the fit on.",
+    "You: But before I head out...",
+    "You: I should take a hit from my Freddy Faz-Bong."
+];
+
+/* SCENE 2 DIALOGUE */
+const dialogue2 = [
+    "You: ...Woah.",
+    "You: This place looks way different than I expected.",
+    "??? : Took you long enough."
+];
+
+let dialogue = dialogue1;
+let index = 0;
+let phase = "dialogue"; 
+// dialogue → slide → fade → newDialogue → options
+
+const dialogueText = document.getElementById("dialogueText");
+const slideImage = document.getElementById("slideImage");
+const fade = document.getElementById("fade");
+const optionsMenu = document.getElementById("optionsMenu");
+
+/* Initialize */
+dialogueText.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance(e) {
+    if (e.target.closest(".option-btn")) return;
+
+    if (phase === "dialogue") {
+        if (index < dialogue.length - 1) {
+            index++;
+            updateText();
+        } else {
+            phase = "slide";
+        }
+    }
+
+    else if (phase === "slide") {
+        slideImage.classList.add("active");
+        phase = "fade";
+    }
+
+    else if (phase === "fade") {
+        fade.classList.add("active");
+
+        setTimeout(() => {
+            document.body.style.backgroundImage = 'url("Artboard 2.png")';
+
+            slideImage.classList.remove("active");
+            slideImage.classList.add("hide");
+
+            dialogue = dialogue2;
+            index = 0;
+            dialogueText.textContent = dialogue[index];
+
+            fade.classList.remove("active");
+            phase = "newDialogue";
+        }, 1000);
+    }
+
+    else if (phase === "newDialogue") {
+        if (index < dialogue.length - 1) {
+            index++;
+            updateText();
+        } else {
+            phase = "options";
+            optionsMenu.style.display = "flex";
+        }
+    }
+}
+
+function updateText() {
+    dialogueText.textContent = dialogue[index];
+    dialogueText.style.animation = "none";
+    dialogueText.offsetHeight;
+    dialogueText.style.animation = "pop 0.4s ease";
+}
+</script>
+
+</body>
+</html>
