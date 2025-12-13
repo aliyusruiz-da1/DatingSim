@@ -1,1 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Mark Flirt</title>
 
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("Artboard 3.png") center / cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* Dialogue box */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 10;
+}
+.dialogue-box img { width: 100%; }
+
+/* Dialogue text */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.65rem;
+    font-weight: bold;
+    color: black;
+    z-index: 11;
+    animation: pop .35s ease;
+}
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* Fade overlay */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+.fade.active { opacity: 1; }
+
+/* END SCREEN */
+.end-screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 150;
+    text-align: center;
+}
+
+.end-text {
+    color: red;
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px darkred;
+}
+
+.end-screen img {
+    width: 280px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="fade" id="fade"></div>
+
+<div class="end-screen" id="endScreen">
+    <div class="end-text">LOVER ACQUIRED</div>
+    <img src="MarkHeart.png" alt="Mark Heart">
+</div>
+
+<div class="dialogue-box">
+    <img src="DBox.png">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+const dialogue = [
+    "You: Uh— not gonna lie, you look even better in person.",
+    "Mark: Haha, wow— bold. I respect that.",
+    "You: I mean it. You’ve got this… energy.",
+    "Mark: Guess all those years of YouTube paid off, huh?",
+    "You: Maybe. Or maybe it's just you.",
+    "Mark: ...You know what? I like you."
+];
+
+let index = 0;
+let finished = false;
+
+const text = document.getElementById("dialogueText");
+const fade = document.getElementById("fade");
+const endScreen = document.getElementById("endScreen");
+
+/* Initialize */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance() {
+    if (finished) return;
+
+    if (index < dialogue.length - 1) {
+        index++;
+        updateText();
+    } else {
+        finished = true;
+        fade.classList.add("active");
+
+        setTimeout(() => {
+            endScreen.style.display = "flex";
+        }, 1200);
+    }
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+</script>
+
+</body>
+</html>
