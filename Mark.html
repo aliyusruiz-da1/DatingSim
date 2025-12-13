@@ -80,12 +80,17 @@
         bottom: 0;
         left: -40%;
         width: 40%;
-        transition: left 1s ease;
+        transition: left 1s ease, opacity 0.5s ease;
         z-index: 5;
+        opacity: 1;
     }
 
     .slide-in.active {
         left: 0;
+    }
+
+    .slide-in.hide {
+        opacity: 0;
     }
 </style>
 </head>
@@ -94,17 +99,17 @@
 
 <div class="fade" id="fade"></div>
 
-<img src="FazBong.png" id="slideImage" class="slide-in" alt="Character">
+<img src="character.png" id="slideImage" class="slide-in" alt="Character">
 
-<div class="dialogue-box" id="dialogueBox">
+<div class="dialogue-box">
     <img src="DBox.png" alt="Dialogue Box">
 </div>
 
 <div class="dialogue-text" id="dialogueText"></div>
 
 <script>
-/* SAVED DIALOGUE */
-const dialogue = [
+/* SCENE 1 DIALOGUE */
+const dialogue1 = [
     "You: Oh yeah, looking suave *phone ping*.",
     "You: Huh, the new FNAF movie is out.",
     "You: Might as well check it out, I already got the fit on.",
@@ -112,47 +117,78 @@ const dialogue = [
     "You: I should take a hit from my Freddy Faz-Bong..."
 ];
 
+/* SCENE 2 DIALOGUE */
+const dialogue2 = [
+    "You: ...DAYM this place is packed.",
+    "You: And the popcorn bucked is way more expensive than I thought.",
+    "??? : Hey, Nice clothes...They're really stylish."
+];
+
+let dialogue = dialogue1;
 let index = 0;
-let phase = "dialogue"; // dialogue → slide → transition
+let phase = "dialogue"; 
+// dialogue → slide → fade → newDialogue
 
 const dialogueText = document.getElementById("dialogueText");
 const slideImage = document.getElementById("slideImage");
 const fade = document.getElementById("fade");
 
-/* Show first line */
+/* Initialize */
 dialogueText.textContent = dialogue[index];
 
 document.body.addEventListener("click", advance);
 
 function advance() {
+
+    /* DIALOGUE PHASE */
     if (phase === "dialogue") {
         if (index < dialogue.length - 1) {
             index++;
-            dialogueText.textContent = dialogue[index];
-
-            dialogueText.style.animation = "none";
-            dialogueText.offsetHeight;
-            dialogueText.style.animation = "pop 0.4s ease";
+            updateText();
         } else {
             phase = "slide";
         }
     }
 
+    /* SLIDE-IN PHASE */
     else if (phase === "slide") {
         slideImage.classList.add("active");
-        phase = "transition";
+        phase = "fade";
     }
 
-    else if (phase === "transition") {
+    /* FADE TRANSITION */
+    else if (phase === "fade") {
         fade.classList.add("active");
 
         setTimeout(() => {
             document.body.style.backgroundImage = 'url("Artboard 2.png")';
-            fade.classList.remove("active");
-        }, 1000);
 
-        phase = "done";
+            slideImage.classList.remove("active");
+            slideImage.classList.add("hide");
+
+            dialogue = dialogue2;
+            index = 0;
+            dialogueText.textContent = dialogue[index];
+
+            fade.classList.remove("active");
+            phase = "newDialogue";
+        }, 1000);
     }
+
+    /* NEW DIALOGUE PHASE */
+    else if (phase === "newDialogue") {
+        if (index < dialogue.length - 1) {
+            index++;
+            updateText();
+        }
+    }
+}
+
+function updateText() {
+    dialogueText.textContent = dialogue[index];
+    dialogueText.style.animation = "none";
+    dialogueText.offsetHeight;
+    dialogueText.style.animation = "pop 0.4s ease";
 }
 </script>
 
