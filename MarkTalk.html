@@ -70,14 +70,17 @@ body {
     gap: 20px;
     z-index: 50;
 }
+
 .option-btn {
     position: relative;
     width: 260px;
     cursor: pointer;
     transition: transform .2s ease;
+    text-decoration: none;
 }
 .option-btn:hover { transform: scale(1.05); }
 .option-btn img { width: 100%; }
+
 .option-label {
     position: absolute;
     inset: 0;
@@ -96,19 +99,22 @@ body {
 
 <img src="Markipoo.png" id="slideImage" class="slide-in" alt="Mark">
 
+<!-- OPTIONS -->
 <div class="options" id="optionsMenu">
-    <div class="option-btn">
+    <a href="MarkFlirt.html" class="option-btn">
         <img src="ButtonD.png">
         <div class="option-label">Flirt</div>
-    </div>
-    <div class="option-btn">
+    </a>
+
+    <a href="MarkYes.html" class="option-btn">
         <img src="ButtonD.png">
         <div class="option-label">Yes</div>
-    </div>
-    <div class="option-btn">
+    </a>
+
+    <a href="MarkNo.html" class="option-btn">
         <img src="ButtonD.png">
         <div class="option-label">No</div>
-    </div>
+    </a>
 </div>
 
 <div class="dialogue-box">
