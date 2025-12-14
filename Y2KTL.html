@@ -1,1 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Y2K</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("Artboard 1.png") center / cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* FADE OVERLAY */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+.fade.active {
+    opacity: 1;
+}
+
+/* DIALOGUE BOX */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 10;
+}
+.dialogue-box img {
+    width: 100%;
+}
+
+/* DIALOGUE TEXT */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.65rem;
+    font-weight: bold;
+    line-height: 1.35;
+    color: black;
+    z-index: 11;
+    animation: pop .35s ease;
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* OPTIONS */
+.options {
+    position: absolute;
+    top: 50%;
+    right: 6%;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 50;
+}
+.option-btn {
+    position: relative;
+    width: 260px;
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+.option-btn:hover {
+    transform: scale(1.05);
+}
+.option-btn img {
+    width: 100%;
+}
+.option-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+}
+</style>
+</head>
+
+<body>
+
+<div class="fade" id="fade"></div>
+
+<div class="options" id="optionsMenu">
+    <div class="option-btn">
+        <img src="ButtonD.png">
+        <div class="option-label">Move</div>
+    </div>
+    <div class="option-btn">
+        <img src="ButtonD.png">
+        <div class="option-label">Ignore</div>
+    </div>
+</div>
+
+<div class="dialogue-box">
+    <img src="DBox.png">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+/* SCENE 1 */
+const dialogue1 = [
+    "You: This place feels… different.",
+    "You: Everything looks straight out of an old magazine.",
+    "You: Is that a flip phone?",
+    "You: …Why do I kinda like it?"
+];
+
+/* SCENE 2 */
+const dialogue2 = [
+    "???: You look lost.",
+    "???: Not many people notice the details anymore.",
+    "You: Uh— sorry, I didn’t mean to stare.",
+    "???: So… what are you gonna do?"
+];
+
+let dialogue = dialogue1;
+let index = 0;
+let phase = "scene1";
+
+const text = document.getElementById("dialogueText");
+const fade = document.getElementById("fade");
+const options = document.getElementById("optionsMenu");
+
+/* INIT */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance(e) {
+    if (e.target.closest(".option-btn")) return;
+
+    /* SCENE 1 */
+    if (phase === "scene1") {
+        if (++index < dialogue.length) {
+            updateText();
+        } else {
+            phase = "fadeOut";
+            startFade();
+        }
+    }
+
+    /* SCENE 2 */
+    else if (phase === "scene2") {
+        if (++index < dialogue.length) {
+            updateText();
+        } else {
+            phase = "options";
+            options.style.display = "flex";
+        }
+    }
+}
+
+function startFade() {
+    fade.classList.add("active");
+
+    setTimeout(() => {
+        document.body.style.backgroundImage = 'url("Artboard 2.png")';
+        dialogue = dialogue2;
+        index = 0;
+        text.textContent = dialogue[0];
+        fade.classList.remove("active");
+        phase = "scene2";
+    }, 1000);
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+</script>
+
+</body>
+</html>
 
