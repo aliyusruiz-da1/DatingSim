@@ -1,1 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Mark Yes</title>
 
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("Artboard 3.png") center / cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* BLUR LAYER */
+.blur {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(0px);
+    transition: backdrop-filter 1s ease;
+    z-index: 80;
+    pointer-events: none;
+}
+.blur.active {
+    backdrop-filter: blur(8px);
+}
+
+/* EYELIDS */
+.eyelid {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: black;
+    z-index: 90;
+    transform: translateY(-100%);
+    transition: transform .6s ease;
+}
+.eyelid.bottom {
+    bottom: 0;
+    transform: translateY(100%);
+}
+.eyelid.active.top {
+    transform: translateY(0);
+}
+.eyelid.active.bottom {
+    transform: translateY(0);
+}
+
+/* Mark PNG */
+.slide-in {
+    position: absolute;
+    bottom: -35px;
+    left: 0;
+    width: 35%;
+    z-index: 5;
+}
+
+/* Dialogue box */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 10;
+}
+.dialogue-box img {
+    width: 100%;
+}
+
+/* Dialogue text */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.65rem;
+    font-weight: bold;
+    color: black;
+    z-index: 11;
+    animation: pop .35s ease;
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Effects -->
+<div class="blur" id="blur"></div>
+<div class="eyelid top" id="lidTop"></div>
+<div class="eyelid bottom" id="lidBottom"></div>
+
+<!-- Mark -->
+<img src="Markipoo.png" class="slide-in" alt="Mark">
+
+<!-- Dialogue UI -->
+<div class="dialogue-box">
+    <img src="DBox.png">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+const dialogue = [
+    "You: Yeah— actually, I’d love a picture.",
+    "Mark: Oh! Of course, yeah— come on over.",
+    "You: Wow… I didn’t think you’d actually say yes.",
+    "Mark: Heh, no worries. Moments like this matter."
+];
+
+let index = 0;
+let ending = false;
+
+const text = document.getElementById("dialogueText");
+const blur = document.getElementById("blur");
+const lidTop = document.getElementById("lidTop");
+const lidBottom = document.getElementById("lidBottom");
+
+/* Init */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance() {
+    if (ending) return;
+
+    if (index < dialogue.length - 1) {
+        index++;
+        updateText();
+    } else {
+        startEnding();
+    }
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+
+function startEnding() {
+    ending = true;
+
+    /* Blur in */
+    blur.classList.add("active");
+
+    /* Blink */
+    setTimeout(() => {
+        lidTop.classList.add("active", "top");
+        lidBottom.classList.add("active", "bottom");
+    }, 700);
+
+    /* Open again briefly (blink) */
+    setTimeout(() => {
+        lidTop.classList.remove("active");
+        lidBottom.classList.remove("active");
+    }, 1300);
+
+    /* Final close */
+    setTimeout(() => {
+        lidTop.classList.add("active");
+        lidBottom.classList.add("active");
+    }, 1800);
+
+    /* Redirect */
+    setTimeout(() => {
+        window.location.href = "MarkFail.html";
+    }, 2600);
+}
+</script>
+
+</body>
+</html>
