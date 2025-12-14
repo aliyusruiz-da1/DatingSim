@@ -17,6 +17,15 @@ body {
     cursor: pointer;
 }
 
+/* MARK IMAGE */
+.mark {
+    position: absolute;
+    bottom: -35px;
+    left: 0;
+    width: 35%;
+    z-index: 5;
+}
+
 /* Dialogue box */
 .dialogue-box {
     position: absolute;
@@ -50,10 +59,26 @@ body {
     from { opacity: 0; transform: translateX(-50%) scale(.96); }
     to { opacity: 1; transform: translateX(-50%) scale(1); }
 }
+
+/* Fade overlay */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+.fade.active { opacity: 1; }
 </style>
 </head>
 
 <body>
+
+<img src="Markipoo.png" class="mark" alt="Mark">
+
+<div class="fade" id="fade"></div>
 
 <div class="dialogue-box">
     <img src="DBox.png" alt="Dialogue Box">
@@ -62,32 +87,43 @@ body {
 <div class="dialogue-text" id="dialogueText"></div>
 
 <script>
-// Array of 4 lines of dialogue
 const dialogue = [
-    "You: sorry, ive never heard of it...",
-    "Mark: Oh... thats ok, Its just something ive poured my heart and soul into...",
-    "*silence*",
-    "Mark: Ah… I think I’m gonna go...find my seat."
+    "You: Sorry, I’ve never heard of it...",
+    "Mark: Oh... that’s okay. It’s just something I’ve poured my heart and soul into...",
+    "*Silence*",
+    "Mark: Ah… I think I’m gonna go find my seat."
 ];
 
 let index = 0;
-const text = document.getElementById("dialogueText");
+let finished = false;
 
-// Initialize first line
+const text = document.getElementById("dialogueText");
+const fade = document.getElementById("fade");
+
+/* Initialize first line */
 text.textContent = dialogue[index];
 
-// Advance dialogue on click anywhere
+/* Advance dialogue */
 document.body.addEventListener("click", () => {
+    if (finished) return;
+
     if (index < dialogue.length - 1) {
         index++;
         updateText();
+    } else {
+        finished = true;
+        fade.classList.add("active");
+
+        setTimeout(() => {
+            window.location.href = "MarkFail.html";
+        }, 1200);
     }
 });
 
 function updateText() {
     text.textContent = dialogue[index];
     text.style.animation = "none";
-    text.offsetHeight; // trigger reflow
+    text.offsetHeight;
     text.style.animation = "pop .35s ease";
 }
 </script>
