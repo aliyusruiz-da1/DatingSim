@@ -11,10 +11,30 @@ body {
     height: 100vh;
     width: 100vw;
     background: url("RecS.png") center / cover no-repeat;
-    position: relative;
     overflow: hidden;
     font-family: Arial, sans-serif;
     cursor: pointer;
+}
+
+/* SCENE WRAPPER (for shake) */
+.scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* SHAKE ANIMATION */
+@keyframes shake {
+    0%   { transform: translate(0, 0); }
+    20%  { transform: translate(-12px, 6px); }
+    40%  { transform: translate(12px, -6px); }
+    60%  { transform: translate(-10px, 4px); }
+    80%  { transform: translate(10px, -4px); }
+    100% { transform: translate(0, 0); }
+}
+
+.scene.shake {
+    animation: shake 0.35s ease;
 }
 
 /* FADE OVERLAY */
@@ -27,9 +47,7 @@ body {
     pointer-events: none;
     z-index: 100;
 }
-.fade.active {
-    opacity: 1;
-}
+.fade.active { opacity: 1; }
 
 /* LEFT PNG */
 .character {
@@ -50,9 +68,7 @@ body {
     max-width: 900px;
     z-index: 10;
 }
-.dialogue-box img {
-    width: 100%;
-}
+.dialogue-box img { width: 100%; }
 
 /* DIALOGUE TEXT */
 .dialogue-text {
@@ -79,27 +95,34 @@ body {
 
 <body>
 
-<div class="fade" id="fade"></div>
+<div class="scene" id="scene">
 
-<img src="MagZ.png" class="character" alt="Character">
+    <div class="fade" id="fade"></div>
 
-<div class="dialogue-box">
-    <img src="DBox.png" alt="Dialogue Box">
+    <img src="MagZ.png" id="character" class="character" alt="Character">
+
+    <div class="dialogue-box">
+        <img src="DBox.png" alt="Dialogue Box">
+    </div>
+
+    <div class="dialogue-text" id="dialogueText"></div>
+
 </div>
-
-<div class="dialogue-text" id="dialogueText"></div>
 
 <script>
 const dialogue = [
     "You: How about we make our own 'music'...",
     "Maggie Zine: EXCUSE ME?!",
-    "You: Im sorry, I-",
-    "Maggie Zine: GET THE HELL AWAY FROM ME CREEP! *SLAP*",
+    "You: I'm sorry, I—",
+    "Maggie Zine: GET THE HELL AWAY FROM ME CREEP! *SLAP*"
 ];
 
 let index = 0;
+
 const text = document.getElementById("dialogueText");
 const fade = document.getElementById("fade");
+const character = document.getElementById("character");
+const scene = document.getElementById("scene");
 
 /* INIT */
 text.textContent = dialogue[index];
@@ -108,7 +131,20 @@ document.body.addEventListener("click", advance);
 
 function advance() {
     if (++index < dialogue.length) {
+
+        /* CHANGE PNG AFTER FIRST LINE */
+        if (index === 1) {
+            character.src = "MagZ_angry.png";
+        }
+
         updateText();
+
+        /* SHAKE ON SLAP */
+        if (dialogue[index].includes("*SLAP*")) {
+            scene.classList.add("shake");
+            setTimeout(() => scene.classList.remove("shake"), 350);
+        }
+
     } else {
         endScene();
     }
