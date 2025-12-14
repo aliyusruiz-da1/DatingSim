@@ -116,10 +116,12 @@ body {
         <img src="ButtonD.png">
         <div class="option-label">talk</div>
     </a>
-    <a href="MarkFail.html" class="option-btn">
+
+    <!-- IGNORE BUTTON WITH FADE -->
+    <div class="option-btn" id="ignoreBtn">
         <img src="ButtonD.png">
         <div class="option-label">ignore</div>
-    </a>
+    </div>
 </div>
 
 <div class="dialogue-box" id="dialogueBox">
@@ -157,12 +159,23 @@ const fade = document.getElementById("fade");
 const slide = document.getElementById("slideImage");
 const options = document.getElementById("optionsMenu");
 const box = document.getElementById("dialogueBox");
+const ignoreBtn = document.getElementById("ignoreBtn");
 
 /* Initialize */
 text.textContent = dialogue[index];
 
 document.body.addEventListener("click", advance);
 box.addEventListener("click", advance);
+
+/* IGNORE BUTTON → FADE → REDIRECT */
+ignoreBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    fade.classList.add("active");
+
+    setTimeout(() => {
+        window.location.href = "MarkFail.html";
+    }, 1000);
+});
 
 function advance(e) {
     if (e.target.closest(".option-btn")) return;
