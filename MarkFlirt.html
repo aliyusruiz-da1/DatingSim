@@ -48,6 +48,15 @@ body {
     to { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
+/* Character image */
+.character {
+    position: absolute;
+    left: 0;          /* align to left */
+    bottom: 0;        /* stick to bottom */
+    width: 32%;       /* 32% width */
+    z-index: 5;       /* behind dialogue */
+}
+
 /* Fade overlay */
 .fade {
     position: absolute;
@@ -100,7 +109,10 @@ body {
 </div>
 
 <div class="dialogue-text" id="dialogueText"></div>
-<img src="Markipoo.png">
+
+<!-- Character on left side -->
+<img src="Markipoo.png" class="character" alt="Mark">
+
 <script>
 const dialogue = [
     "You: You're my kind of thing.",
