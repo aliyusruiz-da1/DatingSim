@@ -1,1 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Mark Fail</title>
 
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: black;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+}
+
+/* Main "BROKEN HEARTS DON'T LAST" text */
+.fail-text {
+    color: red;
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-top: 50px;
+    text-shadow: 0 0 15px darkred;
+}
+
+/* Heart image */
+.fail-heart {
+    width: 250px;
+    margin: 30px auto 10px;
+}
+
+/* Subtext under the heart */
+.fail-subtext {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 30px;
+}
+
+/* Play Again button */
+#playAgainBtn {
+    padding: 12px 30px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 10px darkred;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#playAgainBtn:hover {
+    background-color: darkred;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="fail-text">BROKEN HEARTS DON'T LAST</div>
+
+<img src="Bheart.png" alt="Broken Heart" class="fail-heart">
+
+<div class="fail-subtext">dude, that's THE Markiplier how are you not going to talk to him???</div>
+
+<button id="playAgainBtn">Play Again?</button>
+
+<script>
+const playAgainBtn = document.getElementById("playAgainBtn");
+
+playAgainBtn.addEventListener("click", () => {
+    // Redirect to game page
+    window.location.href = "game.html";
+});
+</script>
+
+</body>
+</html>
