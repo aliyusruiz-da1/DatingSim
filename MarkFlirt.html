@@ -92,6 +92,26 @@ body {
 .end-screen img {
     width: 280px;
 }
+
+/* Play Again button */
+#playAgainBtn {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 10px darkred;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#playAgainBtn:hover {
+    background-color: darkred;
+    transform: scale(1.05);
+}
 </style>
 </head>
 
@@ -99,9 +119,11 @@ body {
 
 <div class="fade" id="fade"></div>
 
+<!-- END SCREEN with Play Again button -->
 <div class="end-screen" id="endScreen">
     <div class="end-text">LOVER ACQUIRED</div>
     <img src="MarkHeart.png" alt="Mark Heart">
+    <button id="playAgainBtn">Play Again?</button>
 </div>
 
 <div class="dialogue-box">
@@ -129,10 +151,12 @@ let finished = false;
 const text = document.getElementById("dialogueText");
 const fade = document.getElementById("fade");
 const endScreen = document.getElementById("endScreen");
+const playAgainBtn = document.getElementById("playAgainBtn");
 
 /* Initialize */
 text.textContent = dialogue[index];
 
+/* Advance dialogue on click */
 document.body.addEventListener("click", advance);
 
 function advance() {
@@ -157,6 +181,11 @@ function updateText() {
     text.offsetHeight;
     text.style.animation = "pop .35s ease";
 }
+
+/* Play Again button redirects to game.html */
+playAgainBtn.addEventListener("click", () => {
+    window.location.href = "game.html";
+});
 </script>
 
 </body>
