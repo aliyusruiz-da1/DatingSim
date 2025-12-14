@@ -31,6 +31,19 @@ body {
     opacity: 1;
 }
 
+/* SLIDING PNG */
+.character {
+    position: absolute;
+    bottom: 12%;
+    left: -40%;
+    width: 35%;
+    transition: left 1s ease;
+    z-index: 5;
+}
+.character.show {
+    left: 3%;
+}
+
 /* DIALOGUE BOX */
 .dialogue-box {
     position: absolute;
@@ -107,12 +120,14 @@ body {
 
 <div class="fade" id="fade"></div>
 
+<img src="Markipoo.png" class="character" id="character">
+
 <div class="options" id="optionsMenu">
-    <div class="option-btn">
+    <div class="option-btn" onclick="location.href='Y2Kmove.html'">
         <img src="ButtonD.png">
         <div class="option-label">Move</div>
     </div>
-    <div class="option-btn">
+    <div class="option-btn" onclick="location.href='Y2Kignore.html'">
         <img src="ButtonD.png">
         <div class="option-label">Ignore</div>
     </div>
@@ -128,20 +143,20 @@ body {
 /* SCENE 1 */
 const dialogue1 = [
     "You: man I look like my older brother...",
-    " I wonder if his old record player is still around.",
-    " ...",
-    " Here it is!",
-    " Shit, I forgot he took all his records when he flew out to Zurich",
-    " Guess I gotta go vinyl hunting now...",
+    "I wonder if his old record player is still around.",
+    "...",
+    "Here it is!",
+    "Shit, I forgot he took all his records when he flew out to Zurich",
+    "Guess I gotta go vinyl hunting now..."
 ];
 
 /* SCENE 2 */
 const dialogue2 = [
-    " Lets see, Radiohead, Skillet, ooooo here we go...",
-    " Garage Shoegaze.",
-    " ...",
-    "???: Excuse me, would it be cool if I could peep some of those discs? ",
-    "(Should move? I was here first...)",
+    "Lets see, Radiohead, Skillet, ooooo here we go...",
+    "Garage Shoegaze.",
+    "...",
+    "???: Excuse me, would it be cool if I could peep some of those discs?",
+    "(Should I move? I was here first...)"
 ];
 
 let dialogue = dialogue1;
@@ -151,6 +166,7 @@ let phase = "scene1";
 const text = document.getElementById("dialogueText");
 const fade = document.getElementById("fade");
 const options = document.getElementById("optionsMenu");
+const character = document.getElementById("character");
 
 /* INIT */
 text.textContent = dialogue[index];
@@ -160,23 +176,28 @@ document.body.addEventListener("click", advance);
 function advance(e) {
     if (e.target.closest(".option-btn")) return;
 
-    /* SCENE 1 */
     if (phase === "scene1") {
         if (++index < dialogue.length) {
             updateText();
         } else {
-            phase = "fadeOut";
             startFade();
         }
     }
 
-    /* SCENE 2 */
     else if (phase === "scene2") {
         if (++index < dialogue.length) {
+
+            /* SLIDE PNG ON 2ND LAST LINE */
+            if (index === dialogue.length - 2) {
+                character.classList.add("show");
+            }
+
             updateText();
-        } else {
-            phase = "options";
-            options.style.display = "flex";
+
+            /* SHOW OPTIONS ON FINAL LINE */
+            if (index === dialogue.length - 1) {
+                options.style.display = "flex";
+            }
         }
     }
 }
@@ -204,4 +225,3 @@ function updateText() {
 
 </body>
 </html>
-
