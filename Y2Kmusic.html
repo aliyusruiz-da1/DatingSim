@@ -1,1 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Y2K Truth</title>
 
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("RecS.png") center / cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* FADE OVERLAY */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+.fade.active { opacity: 1; }
+
+/* LEFT PNG (DEFAULT SIZE AFTER CHANGE) */
+.character {
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    width: 40%;
+    z-index: 5;
+}
+
+/* DIALOGUE BOX */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 10;
+}
+.dialogue-box img { width: 100%; }
+
+/* DIALOGUE TEXT */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.65rem;
+    font-weight: bold;
+    line-height: 1.35;
+    color: black;
+    z-index: 11;
+    animation: pop .35s ease;
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="fade" id="fade"></div>
+
+<!-- STARTS AT 32% -->
+<img src="MagZ.png"
+     id="character"
+     class="character"
+     style="width: 32%;"
+     alt="Character">
+
+<div class="dialogue-box">
+    <img src="DBox.png" alt="Dialogue Box">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+const dialogue = [
+    "You: what kind of music you looking at?",
+    "Maggie Zine: ...theeee same stuff you were just looking at?",
+    "You: ...",
+    "Maggie Zine: ...right, im just gonna go."
+];
+
+let index = 0;
+
+const text = document.getElementById("dialogueText");
+const fade = document.getElementById("fade");
+const character = document.getElementById("character");
+
+/* INIT */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance() {
+    if (++index < dialogue.length) {
+
+        /* CHANGE PNG + SIZE AFTER FIRST LINE */
+        if (index === 1) {
+            character.src = "MagM.png";
+            character.style.width = "40%";
+        }
+
+        updateText();
+    } else {
+        endScene();
+    }
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+
+function endScene() {
+    fade.classList.add("active");
+    setTimeout(() => {
+        window.location.href = "Y2Kfail.html";
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
