@@ -1,1 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Y2K Interests</title>
 
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("RecS.png") center / cover no-repeat;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* LEFT CHARACTER */
+.character {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 32%;
+    z-index: 5;
+}
+
+/* DIALOGUE BOX */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 10;
+}
+.dialogue-box img {
+    width: 100%;
+}
+
+/* DIALOGUE TEXT */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.65rem;
+    font-weight: bold;
+    line-height: 1.35;
+    color: black;
+    z-index: 11;
+    animation: pop .35s ease;
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<img src="MagZ.png" class="character" alt="Character">
+
+<div class="options" id="optionsMenu">
+    <div class="option-btn" id="lieOption">
+        <img src="ButtonD.png" alt="Lie">
+        <div class="option-label">Lie</div>
+    </div>
+    <div class="option-btn" id="truthOption">
+        <img src="ButtonD.png" alt="Tell the truth">
+        <div class="option-label">Tell the truth</div>
+    </div>
+</div>
+
+<div class="dialogue-box">
+    <img src="DBox.png" alt="Dialogue Box">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+const dialogue = [
+    "You: I like to graffi..uhh, make clothes and...check out abandon places.(she sees right through me"",
+    "Maggie Zine: Wow you really get around out there!",
+    "You: Yea I like to adventure.",
+    "Maggie Zine: It beats sitting at home all day,",
+    "Maggie Zine: Well I get bored in this town, next 'adventure' you go on hit me up,",
+    "Maggie Zine: I'd love to tag along",
+    "You: for sure (shit I guess im a punk now)!"
+];
+
+let index = 0;
+
+const text = document.getElementById("dialogueText");
+const options = document.getElementById("optionsMenu");
+
+/* INIT */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+</script>
+
+</body>
+</html>
