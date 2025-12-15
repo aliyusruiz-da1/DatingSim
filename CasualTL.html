@@ -55,22 +55,11 @@ body {
     z-index: 11;
     animation: pop .35s ease;
 }
+
 @keyframes pop {
     from { opacity: 0; transform: translateX(-50%) scale(.96); }
     to { opacity: 1; transform: translateX(-50%) scale(1); }
 }
-
-/* Sliding PNG */
-.slide-in {
-    position: absolute;
-    bottom: 0;
-    left: -40%;
-    width: 40%;
-    transition: left 1s ease, opacity .5s ease;
-    z-index: 5;
-}
-.slide-in.active { left: 0; }
-.slide-in.hide { opacity: 0; }
 
 /* OPTIONS */
 .options {
@@ -83,14 +72,17 @@ body {
     gap: 20px;
     z-index: 50;
 }
+
 .option-btn {
     position: relative;
     width: 260px;
     cursor: pointer;
     transition: transform .2s ease;
+    text-decoration: none;
 }
 .option-btn:hover { transform: scale(1.05); }
 .option-btn img { width: 100%; }
+
 .option-label {
     position: absolute;
     inset: 0;
@@ -110,19 +102,18 @@ body {
 <div class="fade" id="fade"></div>
 
 <div class="options" id="optionsMenu">
-    <a href="MarkTalk.html" class="option-btn">
+    <a href="CasualSp.html" class="option-btn">
         <img src="ButtonD.png">
         <div class="option-label">Talk</div>
     </a>
 
-    <!-- IGNORE BUTTON WITH FADE -->
-    <div class="option-btn" id="ignoreBtn">
+    <a href="CasualLb.html" class="option-btn">
         <img src="ButtonD.png">
         <div class="option-label">Library</div>
-    </div>
+    </a>
 </div>
 
-<div class="dialogue-box" id="dialogueBox">
+<div class="dialogue-box">
     <img src="DBox.png">
 </div>
 
@@ -131,81 +122,69 @@ body {
 <script>
 const dialogue1 = [
     "You: This look is kinda fitting.",
-    "It doesn't really stand out all that much though",
+    "It doesn't really stand out all that much though.",
     "*Looks at window*",
-    "Y'know today looks pretty nice",
-    "I think im gonna go for a walk"
+    "Y'know today looks pretty nice.",
+    "I think im gonna go for a walk."
 ];
 
 const dialogue2 = [
     "This park is actually really nice...",
     "They have native flower beds and everything.",
     "Oh wow theres a library too!",
-    "is that guy walking towards me?",
-    "should I stay and conversate?",
-    "or go to the library?",
+    "Is that guy walking towards me?",
+    "Should I stay and talk?",
+    "Or go to the library?"
 ];
 
 let dialogue = dialogue1;
 let index = 0;
-let phase = "dialogue";
+let phase = 1;
 
 const text = document.getElementById("dialogueText");
 const fade = document.getElementById("fade");
-const slide = document.getElementById("slideImage");
 const options = document.getElementById("optionsMenu");
-const box = document.getElementById("dialogueBox");
-const ignoreBtn = document.getElementById("ignoreBtn");
 
-/* Initialize */
+/* INIT */
 text.textContent = dialogue[index];
 
 document.body.addEventListener("click", advance);
-box.addEventListener("click", advance);
-
-/* IGNORE BUTTON → FADE → REDIRECT */
-ignoreBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    fade.classList.add("active");
-
-    setTimeout(() => {
-        window.location.href = "CasualSpam.html";
-    }, 1000);
-});
 
 function advance(e) {
     if (e.target.closest(".option-btn")) return;
 
-    if (phase === "dialogue") {
-        if (++index < dialogue.length) update();
-        else phase = "slide";
-    }
-
-    else if (phase === "slide") {
-        slide.classList.add("active");
-        phase = "fade";
-    }
-
-    else if (phase === "fade") {
-        fade.classList.add("active");
-        setTimeout(() => {
-            document.body.style.backgroundImage = 'url("Artboard 1 copy.png")';
-            slide.classList.add("hide");
-            dialogue = dialogue2;
-            index = 0;
-            text.textContent = dialogue[0];
-            fade.classList.remove("active");
-            phase = "newDialogue";
-        }, 1000);
-    }
-
-    else if (phase === "newDialogue") {
-        if (++index < dialogue.length) update();
-        else {
-            phase = "options";
-            options.style.display = "flex";
+    /* PHASE 1: FIRST DIALOGUE */
+    if (phase === 1) {
+        if (++index < dialogue.length) {
+            update();
+        } else {
+            phase = 2;
+            transitionToNextScene();
         }
     }
+
+    /* PHASE 2: SECOND DIALOGUE */
+    else if (phase === 2) {
+        if (++index < dialogue.length) {
+            update();
+        } else {
+            options.style.display = "flex";
+            phase = 3;
+        }
+    }
+}
+
+function transitionToNextScene() {
+    fade.classList.add("active");
+
+    setTimeout(() => {
+        document.body.style.backgroundImage = 'url("Artboard 2.png")';
+        dialogue = dialogue2;
+        index = 0;
+        text.textContent = dialogue[0];
+        fade.classList.remove("active");
+        phase = 2;
+    }, 1000);
 }
 
 function update() {
