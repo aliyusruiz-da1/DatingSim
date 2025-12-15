@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dating Sim — Y2K Ignore</title>
+<title>Dating Sim — Y2K Truth</title>
 
 <style>
 body {
@@ -27,9 +27,7 @@ body {
     pointer-events: none;
     z-index: 100;
 }
-.fade.active {
-    opacity: 1;
-}
+.fade.active { opacity: 1; }
 
 /* LEFT PNG */
 .character {
@@ -50,9 +48,7 @@ body {
     max-width: 900px;
     z-index: 10;
 }
-.dialogue-box img {
-    width: 100%;
-}
+.dialogue-box img { width: 100%; }
 
 /* DIALOGUE TEXT */
 .dialogue-text {
@@ -81,7 +77,8 @@ body {
 
 <div class="fade" id="fade"></div>
 
-<img src="MagM.png" class="character" alt="Character">
+<!-- STARTS AS MagZ -->
+<img src="MagZ.png" id="character" class="character" alt="Character">
 
 <div class="dialogue-box">
     <img src="DBox.png" alt="Dialogue Box">
@@ -94,12 +91,14 @@ const dialogue = [
     "You: I don't really do much, I just watch Andrew Tate and Joe Ragan Podcast while scrolling truth soci- ",
     "Maggie Zine: Oh youre a douche bag, why am I not fucking surprised!",
     "You: ...",
-    "Maggie Zine: ...Man you're a piece of shit, can't even make a come back.",
+    "Maggie Zine: ...Man you're a piece of shit, can't even make a come back."
 ];
 
 let index = 0;
+
 const text = document.getElementById("dialogueText");
 const fade = document.getElementById("fade");
+const character = document.getElementById("character");
 
 /* INIT */
 text.textContent = dialogue[index];
@@ -108,6 +107,12 @@ document.body.addEventListener("click", advance);
 
 function advance() {
     if (++index < dialogue.length) {
+
+        /* CHANGE PNG AFTER FIRST LINE */
+        if (index === 1) {
+            character.src = "MagM.png";
+        }
+
         updateText();
     } else {
         endScene();
@@ -131,5 +136,3 @@ function endScene() {
 
 </body>
 </html>
-
-
