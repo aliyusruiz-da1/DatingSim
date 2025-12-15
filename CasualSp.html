@@ -1,1 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Casual Speak</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("Artboard 2.png") center / cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* FADE (kept for consistency, not used here) */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* SLIDING CHARACTER */
+.character {
+    position: absolute;
+    bottom: 0;
+    left: -40%;
+    width: 32%;
+    transition: left 1s ease;
+    z-index: 5;
+}
+.character.active {
+    left: 0;
+}
+
+/* DIALOGUE BOX */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 10;
+}
+.dialogue-box img { width: 100%; }
+
+/* DIALOGUE TEXT */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.65rem;
+    font-weight: bold;
+    color: black;
+    z-index: 11;
+    animation: pop .35s ease;
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* OPTIONS */
+.options {
+    position: absolute;
+    top: 50%;
+    right: 6%;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 50;
+}
+
+.option-btn {
+    position: relative;
+    width: 260px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .2s ease;
+}
+.option-btn:hover { transform: scale(1.05); }
+.option-btn img { width: 100%; }
+
+.option-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SLIDING CHARACTER -->
+<img src="Xander.png" id="character" class="character" alt="Xander">
+
+<!-- OPTIONS -->
+<div class="options" id="optionsMenu">
+    <a href="CasualYes.html" class="option-btn">
+        <img src="ButtonD.png">
+        <div class="option-label">Yes</div>
+    </a>
+
+    <a href="CasualNo.html" class="option-btn">
+        <img src="ButtonD.png">
+        <div class="option-label">No</div>
+    </a>
+
+    <a href="CasualNi.html" class="option-btn">
+        <img src="ButtonD.png">
+        <div class="option-label">Not Interested</div>
+    </a>
+</div>
+
+<!-- DIALOGUE -->
+<div class="dialogue-box">
+    <img src="DBox.png">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+const dialogue = [
+    "Xander: Hey— uh, sorry if this is weird.",
+    "Xander: I just saw you standing here and thought I'd say hi.",
+    "You: Oh— hey.",
+    "Xander: So... would you wanna hang out sometime?"
+];
+
+let index = 0;
+
+const text = document.getElementById("dialogueText");
+const character = document.getElementById("character");
+const options = document.getElementById("optionsMenu");
+
+/* INIT */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance(e) {
+    if (e.target.closest(".option-btn")) return;
+
+    if (++index < dialogue.length) {
+
+        /* SLIDE IN AFTER SECOND LINE */
+        if (index === 2) {
+            character.classList.add("active");
+        }
+
+        updateText();
+    } else {
+        options.style.display = "flex";
+    }
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+</script>
+
+</body>
+</html>
 
