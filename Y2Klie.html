@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dating Sim — Y2K Interests</title>
+<title>Dating Sim — Y2K Lie</title>
 
 <style>
 body {
@@ -14,6 +14,20 @@ body {
     overflow: hidden;
     font-family: Arial, sans-serif;
     cursor: pointer;
+}
+
+/* FADE OVERLAY */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+.fade.active {
+    opacity: 1;
 }
 
 /* LEFT CHARACTER */
@@ -64,7 +78,9 @@ body {
 
 <body>
 
-<img src="MagZ.png" class="character" alt="Character">
+<div class="fade" id="fade"></div>
+
+<img src="MagZ.png" id="character" class="character" alt="Character">
 
 <div class="dialogue-box">
     <img src="DBox.png" alt="Dialogue Box">
@@ -84,7 +100,10 @@ const dialogue = [
 ];
 
 let index = 0;
+
 const text = document.getElementById("dialogueText");
+const character = document.getElementById("character");
+const fade = document.getElementById("fade");
 
 /* INIT */
 text.textContent = dialogue[index];
@@ -93,7 +112,15 @@ document.body.addEventListener("click", advance);
 
 function advance() {
     if (++index < dialogue.length) {
+
+        /* CHANGE PNG AFTER FIRST LINE */
+        if (index === 1) {
+            character.src = "MagL.png";
+        }
+
         updateText();
+    } else {
+        endScene();
     }
 }
 
@@ -102,6 +129,13 @@ function updateText() {
     text.style.animation = "none";
     text.offsetHeight;
     text.style.animation = "pop .35s ease";
+}
+
+function endScene() {
+    fade.classList.add("active");
+    setTimeout(() => {
+        window.location.href = "Y2Klove.html";
+    }, 1000);
 }
 </script>
 
