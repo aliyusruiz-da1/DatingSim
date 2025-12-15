@@ -59,8 +59,6 @@ body {
     from { opacity: 0; transform: translateX(-50%) scale(.96); }
     to { opacity: 1; transform: translateX(-50%) scale(1); }
 }
-
-
 </style>
 </head>
 
@@ -76,7 +74,7 @@ body {
 
 <script>
 const dialogue = [
-    "You: I like to graffi..uhh, make clothes and...check out abandon places.(she sees right through me"",
+    "You: I like to graffi..uhh, make clothes and...check out abandon places. (she sees right through me)",
     "Maggie Zine: Wow you really get around out there!",
     "You: Yea I like to adventure.",
     "Maggie Zine: It beats sitting at home all day,",
@@ -86,14 +84,18 @@ const dialogue = [
 ];
 
 let index = 0;
-
 const text = document.getElementById("dialogueText");
-const options = document.getElementById("optionsMenu");
 
 /* INIT */
 text.textContent = dialogue[index];
 
 document.body.addEventListener("click", advance);
+
+function advance() {
+    if (++index < dialogue.length) {
+        updateText();
+    }
+}
 
 function updateText() {
     text.textContent = dialogue[index];
