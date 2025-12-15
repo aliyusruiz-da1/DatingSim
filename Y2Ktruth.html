@@ -29,7 +29,7 @@ body {
 }
 .fade.active { opacity: 1; }
 
-/* LEFT PNG */
+/* LEFT PNG (DEFAULT SIZE AFTER CHANGE) */
 .character {
     position: absolute;
     bottom: 0%;
@@ -77,8 +77,12 @@ body {
 
 <div class="fade" id="fade"></div>
 
-<!-- STARTS AS MagZ -->
-<img src="MagZ.png" id="character" class="character" alt="Character">
+<!-- STARTS AT 32% -->
+<img src="MagZ.png"
+     id="character"
+     class="character"
+     style="width: 32%;"
+     alt="Character">
 
 <div class="dialogue-box">
     <img src="DBox.png" alt="Dialogue Box">
@@ -108,9 +112,10 @@ document.body.addEventListener("click", advance);
 function advance() {
     if (++index < dialogue.length) {
 
-        /* CHANGE PNG AFTER FIRST LINE */
+        /* CHANGE PNG + SIZE AFTER FIRST LINE */
         if (index === 1) {
             character.src = "MagM.png";
+            character.style.width = "40%";
         }
 
         updateText();
