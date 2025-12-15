@@ -1,1 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Casual Yap</title>
 
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("Artboard 2.png") center / cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* DARKENING OVERLAY (PROGRESSIVE) */
+.dim {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+    transition: opacity .4s ease;
+}
+
+/* FINAL FADE */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 1s ease;
+}
+.fade.active { opacity: 1; }
+
+/* CHARACTER */
+.character {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 32%;
+    z-index: 5;
+}
+
+/* DIALOGUE BOX (UNAFFECTED BY DARKENING) */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 20;
+}
+.dialogue-box img { width: 100%; }
+
+/* DIALOGUE TEXT */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.65rem;
+    font-weight: bold;
+    line-height: 1.35;
+    color: black;
+    z-index: 21;
+    animation: pop .35s ease;
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="dim" id="dim"></div>
+<div class="fade" id="fade"></div>
+
+<img src="Xander.png" id="character" class="character" alt="Xander">
+
+<div class="dialogue-box">
+    <img src="DBox.png" alt="Dialogue Box">
+</div>
+
+<div class="dialogue-text" id="dialogueText"></div>
+
+<script>
+const dialogue = [
+    "You: Sure why not?",
+    "Xander: Splendid!",
+
+    // CorpoCorp rambling (50 lines)
+    ...Array.from({ length: 48 }, (_, i) =>
+        `Xander: CorpoCorp is a marvel of modern enterprise. Synergy, scalability, and limitless innovation drive everything we do.`
+    ),
+
+    "Xander: You are quite a good listener...",
+    "Xander: I like people who listen to my advertisements"
+];
+
+let index = 0;
+let darkness = 0;
+
+const text = document.getElementById("dialogueText");
+const dim = document.getElementById("dim");
+const fade = document.getElementById("fade");
+const character = document.getElementById("character");
+
+/* INIT */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance() {
+    index++;
+
+    if (index < dialogue.length) {
+
+        /* PROGRESSIVE DARKENING */
+        darkness = Math.min(darkness + 0.015, 0.75);
+        dim.style.opacity = darkness;
+
+        /* PNG CHANGE AT LISTENER LINE */
+        if (dialogue[index] === "Xander: You are quite a good listener...") {
+            character.src = "XanL.png";
+        }
+
+        updateText();
+    } else {
+        endScene();
+    }
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+
+function endScene() {
+    fade.classList.add("active");
+    setTimeout(() => {
+        window.location.href = "CasSH.html";
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
