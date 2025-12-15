@@ -103,12 +103,12 @@ body {
 <img src="MagZ.png" class="character" alt="Character">
 
 <div class="options" id="optionsMenu">
-    <div class="option-btn">
-        <img src="ButtonD.png" alt="Option 1">
+    <div class="option-btn" id="lieOption">
+        <img src="ButtonD.png" alt="Lie">
         <div class="option-label">Lie</div>
     </div>
-    <div class="option-btn">
-        <img src="ButtonD.png" alt="Option 2">
+    <div class="option-btn" id="truthOption">
+        <img src="ButtonD.png" alt="Tell the truth">
         <div class="option-label">Tell the truth</div>
     </div>
 </div>
@@ -127,8 +127,7 @@ const dialogue = [
     "Maggie Zine: ahh ok,",
     "Maggie Zine: Well I like thrifting and analogue-type-things",
     "You: Thats pretty cool, did you thrift that fit?",
-    "Maggie Zine: yeah I did! What about you? whats your 'niche'?",
-    
+    "Maggie Zine: yeah I did! What about you? whats your 'niche'?"
 ];
 
 let index = 0;
@@ -140,6 +139,15 @@ const options = document.getElementById("optionsMenu");
 text.textContent = dialogue[index];
 
 document.body.addEventListener("click", advance);
+
+/* OPTION REDIRECTS */
+document.getElementById("lieOption").addEventListener("click", () => {
+    window.location.href = "Y2Klie.html";
+});
+
+document.getElementById("truthOption").addEventListener("click", () => {
+    window.location.href = "Y2Ktruth.html";
+});
 
 function advance(e) {
     if (e.target.closest(".option-btn")) return;
