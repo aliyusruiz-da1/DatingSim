@@ -30,6 +30,46 @@ body {
     opacity: 1;
 }
 
+/* WIN SCREEN */
+.win-screen {
+    position: absolute;
+    inset: 0;
+    background: black;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    z-index: 101;
+    text-align: center;
+}
+
+.win-title {
+    color: red;
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.win-screen img {
+    width: 220px;
+}
+
+.win-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform .2s ease, opacity .2s ease;
+}
+.win-btn:hover {
+    transform: scale(1.05);
+    opacity: .9;
+}
+
 /* LEFT CHARACTER */
 .character {
     position: absolute;
@@ -80,6 +120,12 @@ body {
 
 <div class="fade" id="fade"></div>
 
+<div class="win-screen" id="winScreen">
+    <div class="win-title">LOVER ACQUIRED</div>
+    <img src="MagHeart.png" alt="Heart">
+    <button class="win-btn" onclick="location.reload()">Play Again?</button>
+</div>
+
 <img src="MagZ.png" id="character" class="character" alt="Character">
 
 <div class="dialogue-box">
@@ -104,6 +150,7 @@ let index = 0;
 const text = document.getElementById("dialogueText");
 const character = document.getElementById("character");
 const fade = document.getElementById("fade");
+const winScreen = document.getElementById("winScreen");
 
 /* INIT */
 text.textContent = dialogue[index];
@@ -134,7 +181,7 @@ function updateText() {
 function endScene() {
     fade.classList.add("active");
     setTimeout(() => {
-        window.location.href = "Y2Klove.html";
+        winScreen.style.display = "flex";
     }, 1000);
 }
 </script>
