@@ -29,13 +29,19 @@ body {
 }
 .fade.active { opacity: 1; }
 
-/* LEFT PNG (DEFAULT SIZE AFTER CHANGE) */
+/* LEFT PNG */
 .character {
     position: absolute;
-    bottom: 0%;
+    bottom: 0;
     left: 0;
-    width: 40%;
+    width: 32%;
     z-index: 5;
+    transition: transform 0.9s ease;
+}
+
+/* SLIDE OFF SCREEN */
+.character.exit {
+    transform: translateX(-120%);
 }
 
 /* DIALOGUE BOX */
@@ -77,11 +83,10 @@ body {
 
 <div class="fade" id="fade"></div>
 
-<!-- STARTS AT 32% -->
+<!-- SINGLE CHARACTER PNG -->
 <img src="MagZ.png"
      id="character"
      class="character"
-     style="width: 32%;"
      alt="Character">
 
 <div class="dialogue-box">
@@ -99,6 +104,7 @@ const dialogue = [
 ];
 
 let index = 0;
+let finished = false;
 
 const text = document.getElementById("dialogueText");
 const fade = document.getElementById("fade");
@@ -110,17 +116,14 @@ text.textContent = dialogue[index];
 document.body.addEventListener("click", advance);
 
 function advance() {
-    if (++index < dialogue.length) {
+    if (finished) return;
 
-        /* CHANGE PNG + SIZE AFTER FIRST LINE */
-        if (index === 1) {
-            character.src = "MagM.png";
-            character.style.width = "40%";
-        }
-
+    if (index < dialogue.length - 1) {
+        index++;
         updateText();
     } else {
-        endScene();
+        finished = true;
+        exitScene();
     }
 }
 
@@ -131,11 +134,19 @@ function updateText() {
     text.style.animation = "pop .35s ease";
 }
 
-function endScene() {
-    fade.classList.add("active");
+function exitScene() {
+    /* slide character off screen */
+    character.classList.add("exit");
+
+    /* fade out after slide */
+    setTimeout(() => {
+        fade.classList.add("active");
+    }, 900);
+
+    /* redirect */
     setTimeout(() => {
         window.location.href = "Y2Kfail.html";
-    }, 1000);
+    }, 1900);
 }
 </script>
 
