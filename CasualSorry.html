@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -170,25 +171,31 @@ const explosionSound = document.getElementById("explosionSound");
 /* INIT */
 text.textContent = dialogue[index];
 
+/* BODY CLICK → ADVANCE */
 document.body.addEventListener("click", advance);
 
+/* STOP BUTTON CLICK */
 stopBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
+    e.stopPropagation();               // prevent dialogue advance
     window.location.href = "CasualBreak.html";
 });
 
 function advance(e) {
-    if (e.target.closest("#stopBtn")) return;
-
-    /* hide STOP whenever dialogue advances */
-    stopBtn.style.display = "none";
+    if (e.target === stopBtn) return;
 
     if (++index < dialogue.length) {
         updateText();
 
+        /* SHOW STOP BUTTON AT MIDPOINT */
         if (index === midpoint) {
             stopBtn.style.display = "block";
         }
+
+        /* HIDE STOP BUTTON AFTER MIDPOINT */
+        if (index > midpoint) {
+            stopBtn.style.display = "none";
+        }
+
     } else {
         explodeScene();
     }
