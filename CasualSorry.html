@@ -14,7 +14,14 @@ body {
     position: relative;
     overflow: hidden;
     font-family: Arial, sans-serif;
-    cursor: pointer;
+}
+
+/* FULLSCREEN CLICK CATCHER (ADVANCES DIALOGUE) */
+.click-catcher{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    cursor:pointer;
 }
 
 /* SCENE */
@@ -22,12 +29,12 @@ body {
     position: absolute;
     inset: 0;
     transform-origin: center;
+    z-index: 2;
+    pointer-events: none; /* UI handles clicks, catcher handles dialogue */
 }
 
 /* EXPLOSION */
-.scene.explode {
-    animation: explode .6s ease-out forwards;
-}
+.scene.explode { animation: explode .6s ease-out forwards; }
 @keyframes explode {
     0%   { transform: scale(1); filter: brightness(1); }
     30%  { transform: scale(1.08) translate(-12px, 6px); }
@@ -37,94 +44,89 @@ body {
 
 /* FLASH */
 .flash {
-    position: absolute;
-    inset: 0;
-    background: white;
-    opacity: 0;
+    position: absolute; inset:0;
+    background:white; opacity:0;
     z-index: 90;
+    pointer-events:none;
 }
 .flash.active { animation: flash .3s ease; }
-@keyframes flash {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-}
+@keyframes flash { 0%{opacity:0} 50%{opacity:1} 100%{opacity:0} }
 
 /* FADE */
 .fade {
-    position: absolute;
-    inset: 0;
-    background: black;
-    opacity: 0;
+    position:absolute; inset:0;
+    background:black; opacity:0;
     transition: opacity 1s ease;
     z-index: 100;
-    pointer-events: none;
+    pointer-events:none;
 }
-.fade.active { opacity: 1; }
+.fade.active { opacity:1; }
 
 /* CHARACTER */
 .character {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 32%;
-    z-index: 5;
+    position:absolute;
+    bottom:0; left:0;
+    width:32%;
+    z-index: 3;
+    pointer-events:none;
 }
 
 /* DIALOGUE BOX */
 .dialogue-box {
-    position: absolute;
-    bottom: 3%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70%;
-    max-width: 900px;
-    z-index: 10;
+    position:absolute;
+    bottom:3%;
+    left:50%;
+    transform:translateX(-50%);
+    width:70%;
+    max-width:900px;
+    z-index: 4;
+    pointer-events:none;
 }
-.dialogue-box img { width: 100%; }
+.dialogue-box img { width:100%; display:block; }
 
 /* TEXT */
 .dialogue-text {
-    position: absolute;
-    bottom: 13%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    max-width: 750px;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: black;
-    z-index: 11;
+    position:absolute;
+    bottom:13%;
+    left:50%;
+    transform:translateX(-50%);
+    width:60%;
+    max-width:750px;
+    font-size:1.6rem;
+    font-weight:bold;
+    color:black;
+    z-index: 5;
+    pointer-events:none;
     animation: pop .35s ease;
 }
 @keyframes pop {
-    from { opacity: 0; transform: translateX(-50%) scale(.96); }
-    to   { opacity: 1; transform: translateX(-50%) scale(1); }
+    from { opacity:0; transform:translateX(-50%) scale(.96); }
+    to   { opacity:1; transform:translateX(-50%) scale(1); }
 }
 
-/* DIALOGUE OPTION (STOP) */
+/* STOP OPTION (BUTTOND.PNG) */
 .option {
-    position: absolute;
-    top: 50%;
-    right: 5%;
-    transform: translateY(-50%);
-    display: none;
-    cursor: pointer;
-    z-index: 60;
+    position:absolute;
+    top:50%;
+    right:5%;
+    transform:translateY(-50%);
+    display:none;
+    z-index: 200;          /* ABOVE EVERYTHING */
+    cursor:pointer;
+    pointer-events:auto;   /* MUST be clickable */
 }
-.option img {
-    width: 260px;
-}
-.option-label {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.4rem;
-    font-weight: bold;
-    text-shadow: 1px 1px 4px black;
+.option img { width:260px; display:block; }
+.option-label{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:1.4rem;
+    font-weight:bold;
+    text-shadow:1px 1px 4px black;
+    pointer-events:none; /* clicking label still clicks the option container */
 }
 </style>
 </head>
@@ -133,19 +135,23 @@ body {
 
 <audio id="explosionSound" src="Explosion.mp3" preload="auto"></audio>
 
+<!-- CLICK LAYER -->
+<div class="click-catcher" id="clickCatcher"></div>
+
+<!-- VISUALS -->
 <div class="scene" id="scene">
-    <img src="ModH.png" class="character">
+    <img src="ModH.png" class="character" alt="Character">
 
     <div class="dialogue-box">
-        <img src="DBox.png">
+        <img src="DBox.png" alt="Dialogue Box">
     </div>
 
     <div class="dialogue-text" id="dialogueText"></div>
 </div>
 
 <!-- STOP OPTION -->
-<div class="option" id="stopOption">
-    <img src="ButtonD.png" alt="Stop">
+<div class="option" id="stopOption" role="button" aria-label="stop">
+    <img src="ButtonD.png" alt="Stop option">
     <div class="option-label">stop</div>
 </div>
 
@@ -175,39 +181,34 @@ const flash = document.getElementById("flash");
 const fade = document.getElementById("fade");
 const stopOption = document.getElementById("stopOption");
 const explosionSound = document.getElementById("explosionSound");
+const clickCatcher = document.getElementById("clickCatcher");
 
 /* INIT */
 text.textContent = dialogue[index];
 
-/* ADVANCE DIALOGUE */
-document.body.addEventListener("click", advance);
-
-/* STOP OPTION CLICK */
+/* STOP CLICK */
 stopOption.addEventListener("click", (e) => {
+    e.preventDefault();
     e.stopPropagation();
     window.location.href = "CasualBreak.html";
 });
 
-function advance(e) {
-    if (e.target.closest(".option")) return;
+/* ADVANCE CLICK (ONLY ON CATCHER) */
+clickCatcher.addEventListener("click", (e) => {
+    // if stop button is visible and click somehow lands on it, ignore here
+    if (e.target.closest("#stopOption")) return;
 
-    if (++index < dialogue.length) {
+    index++;
+
+    if (index < dialogue.length) {
         updateText();
 
-        /* SHOW STOP AT MIDPOINT */
-        if (index === midpoint) {
-            stopOption.style.display = "block";
-        }
-
-        /* HIDE AFTER */
-        if (index > midpoint) {
-            stopOption.style.display = "none";
-        }
-
+        if (index === midpoint) stopOption.style.display = "block";
+        if (index > midpoint) stopOption.style.display = "none";
     } else {
         explodeScene();
     }
-}
+});
 
 function updateText() {
     text.textContent = dialogue[index];
@@ -223,7 +224,7 @@ function explodeScene() {
     flash.classList.add("active");
 
     explosionSound.currentTime = 0;
-    explosionSound.play();
+    explosionSound.play().catch(()=>{});
 
     setTimeout(() => fade.classList.add("active"), 500);
     setTimeout(() => window.location.href = "CasualLBfail.html", 1500);
