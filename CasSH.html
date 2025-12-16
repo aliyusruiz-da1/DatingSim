@@ -1,1 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Victory</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* VICTORY TEXT */
+.victory-text {
+    margin-top: 60px;
+    color: red;
+    font-size: 4rem;
+    font-weight: 900;
+    text-align: center;
+    text-shadow: 0 0 15px darkred;
+}
+
+/* IMAGE */
+.victory-img {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.victory-img img {
+    width: 320px;
+}
+
+/* PLAY AGAIN BUTTON */
+#playAgainBtn {
+    margin-bottom: 60px;
+    padding: 14px 36px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 12px darkred;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#playAgainBtn:hover {
+    background-color: darkred;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="victory-text">VICTORY ACHIEVED</div>
+
+<div class="victory-img">
+    <img src="SpamH.png" alt="Victory Image">
+</div>
+
+<button id="playAgainBtn">Play Again?</button>
+
+<script>
+document.getElementById("playAgainBtn").addEventListener("click", () => {
+    window.location.href = "index.html";
+});
+</script>
+
+</body>
+</html>
 
