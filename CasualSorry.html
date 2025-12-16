@@ -1,149 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dating Sim — Casual Sorry</title>
-
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    width: 100vw;
-    background: url("Artboard 1 copy.png") center / cover no-repeat;
-    position: relative;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
-    cursor: pointer;
-}
-
-/* SCENE */
-.scene {
-    position: absolute;
-    inset: 0;
-    transform-origin: center;
-}
-
-/* EXPLOSION */
-.scene.explode {
-    animation: explode .6s ease-out forwards;
-}
-@keyframes explode {
-    0%   { transform: scale(1); filter: brightness(1); }
-    30%  { transform: scale(1.08) translate(-12px, 6px); }
-    60%  { transform: scale(1.15) translate(14px, -10px); filter: brightness(2); }
-    100% { transform: scale(1.25); filter: brightness(3); }
-}
-
-/* FLASH */
-.flash {
-    position: absolute;
-    inset: 0;
-    background: white;
-    opacity: 0;
-    z-index: 90;
-}
-.flash.active { animation: flash .3s ease; }
-@keyframes flash {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-/* FADE */
-.fade {
-    position: absolute;
-    inset: 0;
-    background: black;
-    opacity: 0;
-    transition: opacity 1s ease;
-    z-index: 100;
-    pointer-events: none;
-}
-.fade.active { opacity: 1; }
-
-/* CHARACTER */
-.character {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 32%;
-    z-index: 5;
-}
-
-/* DIALOGUE BOX */
-.dialogue-box {
-    position: absolute;
-    bottom: 3%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70%;
-    max-width: 900px;
-    z-index: 10;
-}
-.dialogue-box img { width: 100%; }
-
-/* TEXT */
-.dialogue-text {
-    position: absolute;
-    bottom: 13%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    max-width: 750px;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: black;
-    z-index: 11;
-    animation: pop .35s ease;
-}
-@keyframes pop {
-    from { opacity: 0; transform: translateX(-50%) scale(.96); }
-    to   { opacity: 1; transform: translateX(-50%) scale(1); }
-}
-
-/* IMAGE STOP BUTTON */
-.stop-btn {
-    position: absolute;
-    right: 4%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 260px;
-    cursor: pointer;
-    z-index: 60;
-    display: none;
-}
-.stop-btn img {
-    width: 100%;
-    display: block;
-}
-.stop-btn:hover {
-    filter: brightness(1.15);
-}
-</style>
-</head>
-
-<body>
-
-<audio id="explosionSound" src="Explosion.mp3" preload="auto"></audio>
-
-<div class="scene" id="scene">
-    <img src="ModH.png" class="character">
-
-    <div class="dialogue-box">
-        <img src="ButtonD.png">
-    </div>
-
-    <div class="dialogue-text" id="dialogueText"></div>
-</div>
-
-<!-- IMAGE-BASED STOP BUTTON -->
-<div class="stop-btn" id="stopBtn">
-    <img src="BoxOpt.png" alt="Stop">
-</div>
-
-<div class="flash" id="flash"></div>
-<div class="fade" id="fade"></div>
+<!-- STOP BUTTON -->
+<button class="stop-btn" id="stopBtn">STOP</button>
 
 <script>
 const dialogue = [
@@ -172,23 +28,26 @@ const explosionSound = document.getElementById("explosionSound");
 /* INIT */
 text.textContent = dialogue[index];
 
+/* ADVANCE DIALOGUE ON CLICK */
 document.body.addEventListener("click", advance);
 
 /* STOP BUTTON CLICK */
 stopBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // prevent advancing dialogue
     window.location.href = "CasualBreak.html";
 });
 
 function advance(e) {
+    // prevent advancing if STOP was clicked
     if (e.target.closest("#stopBtn")) return;
 
-    /* hide STOP whenever dialogue advances */
+    // hide STOP whenever dialogue advances
     stopBtn.style.display = "none";
 
     if (++index < dialogue.length) {
         updateText();
 
+        // show STOP button at midpoint
         if (index === midpoint) {
             stopBtn.style.display = "block";
         }
@@ -200,7 +59,7 @@ function advance(e) {
 function updateText() {
     text.textContent = dialogue[index];
     text.style.animation = "none";
-    text.offsetHeight;
+    text.offsetHeight; // trigger reflow
     text.style.animation = "pop .35s ease";
 }
 
@@ -217,6 +76,3 @@ function explodeScene() {
     setTimeout(() => window.location.href = "CasualLBfail.html", 1500);
 }
 </script>
-
-</body>
-</html>
