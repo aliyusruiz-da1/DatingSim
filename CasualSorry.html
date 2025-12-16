@@ -112,6 +112,9 @@ body {
 
 <body>
 
+<!-- EXPLOSION SOUND -->
+<audio id="explosionSound" src="Explosion.mp3" preload="auto"></audio>
+
 <div class="scene" id="scene">
     <img src="ModH.png" class="character" alt="Character">
 
@@ -129,13 +132,13 @@ body {
 const dialogue = [
     "You: I'm really sorry about that.",
     "???: Its ok, Im sorry.",
-    "You: why? ",
-    "???: I should have noticed you and looked before hand.",
+    "You: why?",
+    "???: I should have noticed you and looked beforehand.",
     "You: No im sorry that I was being careless.",
     "???: But dont blame yourself, im sorry for grabbing your book, you clearly have the right of way.",
     "You: I see where you're coming from but its my fault, really, im the one whos sorry.",
     "???: No no no, I assure you im the one who should apologize.",
-    "You: Please let  me make things right, I ask you accept my apology...",
+    "You: Please let me make things right, I ask you accept my apology...",
     "???: But it is I who should be so-"
 ];
 
@@ -145,6 +148,7 @@ const text = document.getElementById("dialogueText");
 const scene = document.getElementById("scene");
 const flash = document.getElementById("flash");
 const fade = document.getElementById("fade");
+const explosionSound = document.getElementById("explosionSound");
 
 /* INIT */
 text.textContent = dialogue[index];
@@ -170,6 +174,10 @@ function explodeScene() {
     scene.classList.add("explode");
     flash.classList.add("active");
 
+    /* PLAY EXPLOSION SOUND */
+    explosionSound.currentTime = 0;
+    explosionSound.play();
+
     setTimeout(() => {
         fade.classList.add("active");
     }, 500);
@@ -182,4 +190,3 @@ function explodeScene() {
 
 </body>
 </html>
-
