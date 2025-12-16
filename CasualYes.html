@@ -29,6 +29,15 @@ body {
 }
 .fade.active { opacity: 1; }
 
+/* LEFT CHARACTER */
+.character {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 32%;
+    z-index: 5;
+}
+
 /* DIALOGUE BOX */
 .dialogue-box {
     position: absolute;
@@ -67,6 +76,9 @@ body {
 <body>
 
 <div class="fade" id="fade"></div>
+
+<!-- XANDER ON LEFT -->
+<img src="Xander.png" class="character" alt="Xander">
 
 <div class="dialogue-box">
     <img src="DBox.png" alt="Dialogue Box">
