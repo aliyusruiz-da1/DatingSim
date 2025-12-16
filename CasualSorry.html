@@ -1,1 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dating Sim — Casual Sorry</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url("Artboard 1 copy.png") center / cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* SCENE WRAPPER (USED FOR EXPLOSION) */
+.scene {
+    position: absolute;
+    inset: 0;
+    transform-origin: center;
+}
+
+/* EXPLOSION EFFECT */
+.scene.explode {
+    animation: explode .6s ease-out forwards;
+}
+
+@keyframes explode {
+    0%   { transform: scale(1) translate(0,0); filter: brightness(1); }
+    20%  { transform: scale(1.05) translate(-10px, 5px); }
+    40%  { transform: scale(1.1) translate(12px, -8px); filter: brightness(2); }
+    60%  { transform: scale(1.15) translate(-14px, 10px); }
+    100% { transform: scale(1.2); filter: brightness(3); }
+}
+
+/* WHITE FLASH */
+.flash {
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    z-index: 90;
+}
+.flash.active {
+    animation: flash .3s ease;
+}
+@keyframes flash {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* FADE TO BLACK */
+.fade {
+    position: absolute;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 100;
+    pointer-events: none;
+}
+.fade.active { opacity: 1; }
+
+/* LEFT CHARACTER */
+.character {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 32%;
+    z-index: 5;
+}
+
+/* DIALOGUE BOX */
+.dialogue-box {
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 900px;
+    z-index: 10;
+}
+.dialogue-box img { width: 100%; }
+
+/* DIALOGUE TEXT */
+.dialogue-text {
+    position: absolute;
+    bottom: 13%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    line-height: 1.35;
+    color: black;
+    z-index: 11;
+    animation: pop .35s ease;
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: translateX(-50%) scale(.96); }
+    to   { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="scene" id="scene">
+    <img src="ModH.png" class="character" alt="Character">
+
+    <div class="dialogue-box">
+        <img src="DBox.png" alt="Dialogue Box">
+    </div>
+
+    <div class="dialogue-text" id="dialogueText"></div>
+</div>
+
+<div class="flash" id="flash"></div>
+<div class="fade" id="fade"></div>
+
+<script>
+const dialogue = [
+    "You: I'm really sorry about before.",
+    "???: Sorry doesn't usually fix things.",
+    "You: I wasn't trying to be rude.",
+    "???: You were careless.",
+    "You: I know. I should've thought more.",
+    "???: You should have.",
+    "You: I didn't mean to upset you.",
+    "???: Intent doesn't erase impact.",
+    "You: I just wanted to make it right.",
+    "???: Then learn from this."
+];
+
+let index = 0;
+
+const text = document.getElementById("dialogueText");
+const scene = document.getElementById("scene");
+const flash = document.getElementById("flash");
+const fade = document.getElementById("fade");
+
+/* INIT */
+text.textContent = dialogue[index];
+
+document.body.addEventListener("click", advance);
+
+function advance() {
+    if (++index < dialogue.length) {
+        updateText();
+    } else {
+        explodeScene();
+    }
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+
+function explodeScene() {
+    scene.classList.add("explode");
+    flash.classList.add("active");
+
+    setTimeout(() => {
+        fade.classList.add("active");
+    }, 500);
+
+    setTimeout(() => {
+        window.location.href = "CasualLBfail.html";
+    }, 1500);
+}
+</script>
+
+</body>
+</html>
 
