@@ -102,119 +102,16 @@ body {
     to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
-/* STOP BUTTON */
+/* IMAGE STOP BUTTON */
 .stop-btn {
     position: absolute;
-    right: 5%;
+    right: 4%;
     top: 50%;
     transform: translateY(-50%);
-    background: red;
-    color: white;
-    font-size: 1.4rem;
-    font-weight: bold;
-    padding: 14px 32px;
-    border: none;
+    width: 260px;
     cursor: pointer;
     z-index: 60;
     display: none;
-    box-shadow: 0 0 12px black;
 }
-.stop-btn:hover {
-    background: darkred;
-}
-</style>
-</head>
-
-<body>
-
-<audio id="explosionSound" src="Explosion.mp3" preload="auto"></audio>
-
-<div class="scene" id="scene">
-    <img src="ModH.png" class="character">
-
-    <div class="dialogue-box">
-        <img src="DBox.png">
-    </div>
-
-    <div class="dialogue-text" id="dialogueText"></div>
-</div>
-
-<button class="stop-btn" id="stopBtn">STOP</button>
-
-<div class="flash" id="flash"></div>
-<div class="fade" id="fade"></div>
-
-<script>
-const dialogue = [
-    "You: I'm really sorry about that.",
-    "???: Its ok, Im sorry.",
-    "You: why?",
-    "???: I should have noticed you and looked beforehand.",
-    "You: No im sorry that I was being careless.",
-    "???: But dont blame yourself, im sorry for grabbing your book, you clearly have the right of way.",
-    "You: I see where you're coming from but its my fault, really, im the one whos sorry.",
-    "???: No no no, I assure you im the one who should apologize.",
-    "You: Please let me make things right, I ask you accept my apology...",
-    "???: But it is I who should be so-"
-];
-
-let index = 0;
-const midpoint = Math.floor(dialogue.length / 2);
-
-const text = document.getElementById("dialogueText");
-const scene = document.getElementById("scene");
-const flash = document.getElementById("flash");
-const fade = document.getElementById("fade");
-const stopBtn = document.getElementById("stopBtn");
-const explosionSound = document.getElementById("explosionSound");
-
-/* INIT */
-text.textContent = dialogue[index];
-
-document.body.addEventListener("click", advance);
-
-stopBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    window.location.href = "CasualBreak.html";
-});
-
-function advance(e) {
-    if (e.target.closest("#stopBtn")) return;
-
-    /* hide STOP whenever dialogue advances */
-    stopBtn.style.display = "none";
-
-    if (++index < dialogue.length) {
-        updateText();
-
-        if (index === midpoint) {
-            stopBtn.style.display = "block";
-        }
-    } else {
-        explodeScene();
-    }
-}
-
-function updateText() {
-    text.textContent = dialogue[index];
-    text.style.animation = "none";
-    text.offsetHeight;
-    text.style.animation = "pop .35s ease";
-}
-
-function explodeScene() {
-    stopBtn.style.display = "none";
-
-    scene.classList.add("explode");
-    flash.classList.add("active");
-
-    explosionSound.currentTime = 0;
-    explosionSound.play();
-
-    setTimeout(() => fade.classList.add("active"), 500);
-    setTimeout(() => window.location.href = "CasualLBfail.html", 1500);
-}
-</script>
-
-</body>
-</html>
+.stop-btn img {
+    width: 100%;
