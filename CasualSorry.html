@@ -118,7 +118,6 @@ body {
     z-index: 60;
     display: none;
     box-shadow: 0 0 12px black;
-    pointer-events: auto;
 }
 .stop-btn:hover {
     background: darkred;
@@ -176,14 +175,13 @@ document.body.addEventListener("click", advance);
 
 stopBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    window.location.href = "CasualSorryBreak.html";
+    window.location.href = "CasualBreak.html";
 });
 
 function advance(e) {
-    /* DO NOT advance if STOP button was clicked */
     if (e.target.closest("#stopBtn")) return;
 
-    /* Hide STOP whenever dialogue advances */
+    /* hide STOP whenever dialogue advances */
     stopBtn.style.display = "none";
 
     if (++index < dialogue.length) {
