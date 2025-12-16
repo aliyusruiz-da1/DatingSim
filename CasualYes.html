@@ -77,11 +77,45 @@ body {
 <script>
 const dialogue = [
     "You: Yeah, sure.",
-    "Xander: Excellent choice, would you like to buy some units?.",
-    "You: Yes...",
-    "Xander: Great! ill set you down for 100 units and mail you the bill.",
+    "Xander: Excellent choice, Would you like to buy some units?",
+    "You: ...Yes",
+    "Xander: Amazing! I'll put you down for 100 units, we'll mail you the bill.",
+    "You: A h-HUNDRED WAI-",
+    "Xander: Have a great day!"
 ];
 
 let index = 0;
 const text = document.getElementById("dialogueText");
-const fade = document.getElementB
+const fade = document.getElementById("fade");
+
+/* INIT */
+text.textContent = dialogue[index];
+
+/* ADVANCE ON CLICK */
+document.body.addEventListener("click", advance);
+
+function advance() {
+    if (++index < dialogue.length) {
+        updateText();
+    } else {
+        endScene();
+    }
+}
+
+function updateText() {
+    text.textContent = dialogue[index];
+    text.style.animation = "none";
+    text.offsetHeight;
+    text.style.animation = "pop .35s ease";
+}
+
+function endScene() {
+    fade.classList.add("active");
+    setTimeout(() => {
+        window.location.href = "CasualSfail.html";
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
