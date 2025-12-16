@@ -17,24 +17,22 @@ body {
     cursor: pointer;
 }
 
-/* SCENE WRAPPER */
+/* SCENE */
 .scene {
     position: absolute;
     inset: 0;
     transform-origin: center;
 }
 
-/* EXPLOSION EFFECT */
+/* EXPLOSION */
 .scene.explode {
     animation: explode .6s ease-out forwards;
 }
-
 @keyframes explode {
-    0%   { transform: scale(1) translate(0,0); filter: brightness(1); }
-    20%  { transform: scale(1.05) translate(-10px, 5px); }
-    40%  { transform: scale(1.1) translate(12px, -8px); filter: brightness(2); }
-    60%  { transform: scale(1.15) translate(-14px, 10px); }
-    100% { transform: scale(1.2); filter: brightness(3); }
+    0%   { transform: scale(1); filter: brightness(1); }
+    30%  { transform: scale(1.08) translate(-12px, 6px); }
+    60%  { transform: scale(1.15) translate(14px, -10px); filter: brightness(2); }
+    100% { transform: scale(1.25); filter: brightness(3); }
 }
 
 /* FLASH */
@@ -99,7 +97,6 @@ body {
     z-index: 11;
     animation: pop .35s ease;
 }
-
 @keyframes pop {
     from { opacity: 0; transform: translateX(-50%) scale(.96); }
     to   { opacity: 1; transform: translateX(-50%) scale(1); }
@@ -118,9 +115,10 @@ body {
     padding: 14px 32px;
     border: none;
     cursor: pointer;
-    z-index: 50;
+    z-index: 60;
     display: none;
-    box-shadow: 0 0 10px black;
+    box-shadow: 0 0 12px black;
+    pointer-events: auto;
 }
 .stop-btn:hover {
     background: darkred;
@@ -182,7 +180,11 @@ stopBtn.addEventListener("click", (e) => {
 });
 
 function advance(e) {
-    if (e.target === stopBtn) return;
+    /* DO NOT advance if STOP button was clicked */
+    if (e.target.closest("#stopBtn")) return;
+
+    /* Hide STOP whenever dialogue advances */
+    stopBtn.style.display = "none";
 
     if (++index < dialogue.length) {
         updateText();
@@ -204,6 +206,7 @@ function updateText() {
 
 function explodeScene() {
     stopBtn.style.display = "none";
+
     scene.classList.add("explode");
     flash.classList.add("active");
 
