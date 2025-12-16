@@ -175,31 +175,7 @@ text.textContent = dialogue[index];
 document.body.addEventListener("click", advance);
 
 /* STOP BUTTON CLICK */
-stopBtn.addEventListener("click", (e) => {
-    e.stopPropagation();               // prevent dialogue advance
-    window.location.href = "CasualBreak.html";
-});
 
-function advance(e) {
-    if (e.target === stopBtn) return;
-
-    if (++index < dialogue.length) {
-        updateText();
-
-        /* SHOW STOP BUTTON AT MIDPOINT */
-        if (index === midpoint) {
-            stopBtn.style.display = "block";
-        }
-
-        /* HIDE STOP BUTTON AFTER MIDPOINT */
-        if (index > midpoint) {
-            stopBtn.style.display = "none";
-        }
-
-    } else {
-        explodeScene();
-    }
-}
 
 function updateText() {
     text.textContent = dialogue[index];
