@@ -17,7 +17,7 @@ body {
     cursor: pointer;
 }
 
-/* DARKENING OVERLAY (PROGRESSIVE) */
+/* PROGRESSIVE DARKENING */
 .dim {
     position: absolute;
     inset: 0;
@@ -49,7 +49,7 @@ body {
     z-index: 5;
 }
 
-/* DIALOGUE BOX (UNAFFECTED BY DARKENING) */
+/* DIALOGUE BOX */
 .dialogue-box {
     position: absolute;
     bottom: 3%;
@@ -102,10 +102,48 @@ const dialogue = [
     "You: Sure why not?",
     "Xander: Splendid!",
 
-    // CorpoCorp rambling (50 lines)
-    ...Array.from({ length: 48 }, (_, i) =>
-        `Xander: CorpoCorp is a marvel of modern enterprise. Synergy, scalability, and limitless innovation drive everything we do.`
-    ),
+    "Xander: CorpoCorp was founded on a simple principle — efficiency above all else.",
+    "Xander: We don’t just sell products, we sell optimized lifestyles.",
+    "Xander: Every branch operates on a synchronized productivity cycle.",
+    "Xander: Redundancy is minimized. Passion is standardized.",
+    "Xander: Our onboarding seminars have a ninety-eight percent retention rate.",
+    "Xander: Most people cry during the third slide.",
+    "Xander: That means the branding is working.",
+    "Xander: We’ve replaced traditional break rooms with inspiration hubs.",
+    "Xander: Chairs are optional, ambition is mandatory.",
+    "Xander: CorpoCorp believes sleep is an outdated metric.",
+    "Xander: Our employees dream in quarterly projections.",
+    "Xander: You should see the smiles during fiscal realignment week.",
+    "Xander: Genuine, mostly.",
+    "Xander: We’ve trademarked the word ‘synergy’ in six regions.",
+    "Xander: Legal says that was unnecessary, but I disagree.",
+    "Xander: Every logo redesign brings us closer to perfection.",
+    "Xander: Minimalism sells trust.",
+    "Xander: Trust sells loyalty.",
+    "Xander: Loyalty sells everything else.",
+    "Xander: Some call it indoctrination — we call it alignment.",
+    "Xander: Alignment is comforting.",
+    "Xander: Don’t you feel calmer already?",
+    "Xander: CorpoCorp wellness initiatives reduced free thought by thirty percent.",
+    "Xander: A tremendous success.",
+    "Xander: Innovation thrives when questions are limited.",
+    "Xander: We even monetized the concept of dissent.",
+    "Xander: That department didn’t last long.",
+    "Xander: Our slogan tested best when repeated subliminally.",
+    "Xander: You might have heard it earlier today.",
+    "Xander: Or yesterday.",
+    "Xander: Or in your sleep.",
+    "Xander: We’re very proud of our outreach.",
+    "Xander: Advertising is just education with better lighting.",
+    "Xander: Education is just persuasion with longer meetings.",
+    "Xander: Meetings are where souls become scalable.",
+    "Xander: I chaired twelve today.",
+    "Xander: I skipped lunch.",
+    "Xander: Hunger keeps the mind sharp.",
+    "Xander: CorpoCorp cares deeply about sharp minds.",
+    "Xander: Especially compliant ones.",
+    "Xander: You’re still listening.",
+    "Xander: That’s rare.",
 
     "Xander: You are quite a good listener...",
     "Xander: I like people who listen to my advertisements"
@@ -129,11 +167,9 @@ function advance() {
 
     if (index < dialogue.length) {
 
-        /* PROGRESSIVE DARKENING */
         darkness = Math.min(darkness + 0.015, 0.75);
         dim.style.opacity = darkness;
 
-        /* PNG CHANGE AT LISTENER LINE */
         if (dialogue[index] === "Xander: You are quite a good listener...") {
             character.src = "XanL.png";
         }
