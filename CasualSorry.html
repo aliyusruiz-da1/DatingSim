@@ -102,25 +102,29 @@ body {
     to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
-/* STOP BUTTON */
-.stop-btn {
+/* DIALOGUE OPTION (STOP) */
+.option {
     position: absolute;
-    right: 5%;
     top: 50%;
+    right: 5%;
     transform: translateY(-50%);
-    background: red;
+    display: none;
+    cursor: pointer;
+    z-index: 60;
+}
+.option img {
+    width: 260px;
+}
+.option-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
     font-size: 1.4rem;
     font-weight: bold;
-    padding: 14px 32px;
-    border: none;
-    cursor: pointer;
-    z-index: 60;
-    display: none;
-    box-shadow: 0 0 12px black;
-}
-.stop-btn:hover {
-    background: darkred;
+    text-shadow: 1px 1px 4px black;
 }
 </style>
 </head>
@@ -139,7 +143,11 @@ body {
     <div class="dialogue-text" id="dialogueText"></div>
 </div>
 
-<button class="stop-btn" id="stopBtn">STOP</button>
+<!-- STOP OPTION -->
+<div class="option" id="stopOption">
+    <img src="ButtonD.png" alt="Stop">
+    <div class="option-label">stop</div>
+</div>
 
 <div class="flash" id="flash"></div>
 <div class="fade" id="fade"></div>
@@ -165,17 +173,41 @@ const text = document.getElementById("dialogueText");
 const scene = document.getElementById("scene");
 const flash = document.getElementById("flash");
 const fade = document.getElementById("fade");
-const stopBtn = document.getElementById("stopBtn");
+const stopOption = document.getElementById("stopOption");
 const explosionSound = document.getElementById("explosionSound");
 
 /* INIT */
 text.textContent = dialogue[index];
 
-/* BODY CLICK → ADVANCE */
+/* ADVANCE DIALOGUE */
 document.body.addEventListener("click", advance);
 
-/* STOP BUTTON CLICK */
+/* STOP OPTION CLICK */
+stopOption.addEventListener("click", (e) => {
+    e.stopPropagation();
+    window.location.href = "CasualBreak.html";
+});
 
+function advance(e) {
+    if (e.target.closest(".option")) return;
+
+    if (++index < dialogue.length) {
+        updateText();
+
+        /* SHOW STOP AT MIDPOINT */
+        if (index === midpoint) {
+            stopOption.style.display = "block";
+        }
+
+        /* HIDE AFTER */
+        if (index > midpoint) {
+            stopOption.style.display = "none";
+        }
+
+    } else {
+        explodeScene();
+    }
+}
 
 function updateText() {
     text.textContent = dialogue[index];
@@ -185,7 +217,7 @@ function updateText() {
 }
 
 function explodeScene() {
-    stopBtn.style.display = "none";
+    stopOption.style.display = "none";
 
     scene.classList.add("explode");
     flash.classList.add("active");
